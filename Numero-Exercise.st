@@ -266,7 +266,7 @@ test42SignIsCorrectlyAssignedToFractionWithNegativeDivisor
 	self assert: oneHalf negated equals: (one / negativeTwo)! !
 
 
-!NumeroTest methodsFor: 'setup' stamp: 'NR 9/23/2018 23:46:28'!
+!NumeroTest methodsFor: 'setup' stamp: 'GR 9/29/2020 16:02:21'!
 setUp
 
 	zero := Entero with: 0.
@@ -431,7 +431,7 @@ Numero subclass: #Entero
 	
 	^self class with: value // aDivisor integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/29/2020 16:26:18'!
 fibonacci
 
 	| one two |
@@ -439,11 +439,10 @@ fibonacci
 	one := Entero with: 1.
 	two := Entero with: 2.
 	
-	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
+	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].
 	(self isZero or: [self isOne]) ifTrue: [^one].
 	
-	^ (self - one) fibonacci + (self - two) fibonacci
-		! !
+	^ (self - one) fibonacci + (self - two) fibonacci! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:00'!
 greatestCommonDivisorWith: anEntero 
@@ -498,10 +497,8 @@ isZero
 	^value = 0! !
 
 
-!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 22:26:39'!
+!Entero methodsFor: 'private' stamp: 'GR 9/29/2020 15:42:34'!
 dividendIsEntero: anEntero
-	
-	(self isOne) ifTrue: [^anEntero].
 	
 	^Fraccion with: anEntero over: self! !
 
