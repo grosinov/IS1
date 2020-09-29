@@ -340,6 +340,47 @@ isZero
 
 	self subclassResponsibility ! !
 
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 14:59:12'!
+dividendIsEntero: anEntero
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 14:59:49'!
+dividendIsFraccion: aFraccion
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 15:00:09'!
+firstAdderIsEntero: anEntero
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 15:00:26'!
+firstAdderIsFraccion: aFraccion
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 15:00:52'!
+firstMultiplierIsEntero: anEntero
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 15:01:05'!
+firstMultiplierIsFraccion: aFraccion
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 15:01:18'!
+minuendIsEntero: anEntero
+
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'private' stamp: 'GR 9/29/2020 15:01:28'!
+minuendIsFraccion: aFraccion
+
+	self subclassResponsibility.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Numero class' category: 'Numero-Exercise'!
@@ -483,7 +524,7 @@ firstAdderIsFraccion: aFraccion
 	
 	^ newNumerator / aFraccion denominator ! !
 
-!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 23:08:17'!
+!Entero methodsFor: 'private' stamp: 'GR 9/29/2020 15:00:44'!
 firstMultiplierIsEntero: anEntero
 
 	^ self class with: anEntero integerValue * value! !
