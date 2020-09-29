@@ -25,7 +25,7 @@ test04isOneReturnsFalseWhenAskToOtherThanOne
 
 	self deny: zero isOne! !
 
-!NumeroTest methodsFor: 'tests' stamp: 'HernanWilkinson 5/7/2016 20:14'!
+!NumeroTest methodsFor: 'tests' stamp: 'GR 9/28/2020 22:58:08'!
 test05EnteroAddsWithEnteroCorrectly
 
 	self assert: one + one equals: two! !
@@ -364,54 +364,26 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 19:58:49'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:39:06'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: Entero) ifTrue: [ ^self class with: value * aMultiplier integerValue ]
-		ifFalse:
-			[ | newNumerator | 
-			
-			newNumerator := (self) * (aMultiplier numerator).
-	
-			^ newNumerator / aMultiplier denominator 
-			].
-	! !
+	^ aMultiplier firstMultiplierIsEntero: self! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 19:56:52'!
-+ anAdder 
-	
-	(anAdder isKindOf: Entero) ifTrue: [ ^self class with: value + anAdder integerValue ]
-		ifFalse:
-			[ | newNumerator | 
-			
-			newNumerator := ((self) * (anAdder denominator)) + (anAdder numerator).
-	
-			^ newNumerator / anAdder denominator 
-			]
-	
+!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:04:43'!
++ anAdder
+
+	^ anAdder firstAdderIsEntero: self.
 ! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 20:22:27'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:42:31'!
 - aSubtrahend 
 
-	(aSubtrahend isKindOf: Entero) ifTrue: [ ^self class with: value - aSubtrahend integerValue ]
-		ifFalse:
-			[ | newNumerator | 
-			
-			newNumerator := ((self) * (aSubtrahend denominator)) - (aSubtrahend numerator).
-	
-			^ newNumerator / aSubtrahend denominator 
-			]! !
+	^ aSubtrahend minuendIsEntero: self! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 20:38:34'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:39:13'!
 / aDivisor 
 	
-	(aDivisor isOne) ifTrue: [^self]
-		ifFalse: [
-			(aDivisor isKindOf: Entero) ifTrue: [ ^Fraccion with: self over: aDivisor ]
-				ifFalse: [ ^Fraccion with: self * aDivisor denominator over: aDivisor numerator ]
-		]
-	! !
+	^ aDivisor dividendIsEntero: self! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:55'!
 // aDivisor 
@@ -484,6 +456,61 @@ isZero
 	
 	^value = 0! !
 
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 22:26:39'!
+dividendIsEntero: anEntero
+	
+	(self isOne) ifTrue: [^anEntero].
+	
+	^Fraccion with: anEntero over: self! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 22:31:39'!
+dividendIsFraccion: aFraccion
+
+	^Fraccion with: aFraccion numerator over: self * aFraccion denominator! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 23:09:56'!
+firstAdderIsEntero: anEntero
+	
+	^ self class with: anEntero integerValue + value! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 22:45:13'!
+firstAdderIsFraccion: aFraccion
+
+	| newNumerator | 
+			
+	newNumerator := aFraccion numerator + (self * aFraccion denominator).
+	
+	^ newNumerator / aFraccion denominator ! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 23:08:17'!
+firstMultiplierIsEntero: anEntero
+
+	^ self class with: anEntero integerValue * value! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 22:45:42'!
+firstMultiplierIsFraccion: aFraccion
+
+	| newNumerator | 
+			
+	newNumerator := (aFraccion numerator) * self.
+	
+	^ newNumerator / aFraccion denominator ! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 23:08:39'!
+minuendIsEntero: anEntero
+
+	^ self class with: anEntero integerValue - value! !
+
+!Entero methodsFor: 'private' stamp: 'GR 9/28/2020 22:44:31'!
+minuendIsFraccion: aFraccion
+
+	| newNumerator | 
+			
+	newNumerator :=  aFraccion numerator - (self * aFraccion denominator).
+	
+	^ newNumerator / aFraccion denominator ! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Entero class' category: 'Numero-Exercise'!
@@ -510,69 +537,30 @@ Numero subclass: #Fraccion
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 20:01:08'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:38:27'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: Entero) ifTrue: [
-	| newNumerator |
-	
-	newNumerator := (numerator * aMultiplier).
-	
-	^newNumerator / denominator.
-	
-	] ifFalse: [ ^(numerator * aMultiplier numerator) / (denominator * aMultiplier denominator) ]
-	
+	^ aMultiplier firstMultiplierIsFraccion: self
 	! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 19:56:13'!
-+ anAdder 
-	
-	(anAdder isKindOf: Entero) ifTrue: [
-	| newNumerator newDenominator |
-	
-	newNumerator := (numerator) + (denominator * anAdder).
-	newDenominator := denominator.
-	
-	^newNumerator / newDenominator
-	
-	] ifFalse: [
-	| newNumerator newDenominator |
-	
-	newNumerator := (numerator * anAdder denominator) + (denominator * anAdder numerator).
-	newDenominator := denominator * anAdder denominator.
-	
-	^newNumerator / newDenominator ]! !
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:38:11'!
++ anAdder
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 20:46:09'!
+	^ anAdder firstAdderIsFraccion: self.! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:42:22'!
 - aSubtrahend
 
-	(aSubtrahend isKindOf: Fraccion) ifTrue: [ 
-		
-		| newNumerator newDenominator| 
-		
-		newNumerator := (numerator * aSubtrahend denominator) - (denominator * aSubtrahend numerator).
-		newDenominator := denominator * aSubtrahend denominator.
-	
-		^newNumerator / newDenominator  ]
-		ifFalse:
-			[ | newNumerator | 
-			
-			newNumerator := numerator - (aSubtrahend * denominator).
-	
-			^ newNumerator / denominator 
-			]
-	
+	^ aSubtrahend minuendIsFraccion: self
 	
 	
 	
 ! !
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/27/2020 20:18:06'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'GR 9/28/2020 22:38:43'!
 / aDivisor 
 	
-	(aDivisor isKindOf: Fraction) 
-		ifTrue: [ ^(numerator * aDivisor denominator) / (denominator * aDivisor numerator) ] 
-		ifFalse: [ ^numerator / (denominator * aDivisor) ]
+	^ aDivisor dividendIsFraccion: self
 	! !
 
 
@@ -632,6 +620,65 @@ printOn: aStream
 		print: numerator;
 		nextPut: $/;
 		print: denominator ! !
+
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 22:34:07'!
+dividendIsEntero: anEntero
+
+	^ (denominator * anEntero) / numerator! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 22:36:02'!
+dividendIsFraccion: aFraccion
+
+	^ (denominator * aFraccion numerator) / (numerator * aFraccion denominator)! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 21:45:57'!
+firstAdderIsEntero: anEntero
+
+	| newNumerator | 
+			
+	newNumerator := (anEntero * (denominator)) + (numerator).
+	
+	^ newNumerator / denominator ! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 22:47:48'!
+firstAdderIsFraccion: aFraccion
+
+	| newNumerator newDenominator |
+	
+		newNumerator := (aFraccion denominator * numerator) + (aFraccion numerator * denominator).
+		newDenominator := denominator * aFraccion denominator.
+	
+		^newNumerator / newDenominator! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 22:47:14'!
+firstMultiplierIsEntero: anEntero
+
+	^ (anEntero * numerator) / denominator! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 22:47:01'!
+firstMultiplierIsFraccion: aFraccion
+
+	^(aFraccion numerator * numerator) / (aFraccion denominator * denominator)! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 23:14:44'!
+minuendIsEntero: anEntero
+
+	| newNumerator | 
+			
+	newNumerator := (anEntero * denominator) - numerator.
+	
+	^ newNumerator / denominator ! !
+
+!Fraccion methodsFor: 'private' stamp: 'GR 9/28/2020 22:46:25'!
+minuendIsFraccion: aFraccion
+
+	| newNumerator newDenominator |
+	
+	newNumerator := (denominator * aFraccion numerator) - (numerator * aFraccion denominator).
+	newDenominator := denominator * aFraccion denominator.
+	
+	^newNumerator / newDenominator! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
