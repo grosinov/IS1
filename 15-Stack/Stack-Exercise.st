@@ -145,7 +145,7 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/4/2020 18:04:01'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/7/2020 15:17:36'!
 setUp
 	
 	| finder stack |
@@ -159,9 +159,9 @@ setUp
 	
 	finder := SentenceFinderByPrefix newWith: stack.
 	
-	^finder! !
+	^finder.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/4/2020 17:56:20'!
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/7/2020 15:35:30'!
 test01ifPrefixExistsReturnCollectionOfWords
 	
 	| finder matches |
@@ -169,18 +169,18 @@ test01ifPrefixExistsReturnCollectionOfWords
 	finder := self setUp.
 	matches := OrderedCollection with: 'hola familia' with: 'hola amigos'.
 	
-	self assert: (finder find: 'ho') = matches! !
+	self assert: (finder find: 'ho') = matches.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/4/2020 17:48:31'!
-test02searchingPrefixDoesnotModifyStack
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/7/2020 16:25:15'!
+test02searchingPrefixDoesNotModifyStack
 	
-	| finder sizeBeforeFind |
+	| sentenceFinderPostFind sentenceFinderPreviousFind |
 	
-	finder := self setUp.
-	sizeBeforeFind := finder stack size.
+	sentenceFinderPreviousFind := self setUp.
+	sentenceFinderPostFind := self setUp.
 	
-	finder find: 'ho'.
-	self assert: finder stack size = sizeBeforeFind ! !
+	sentenceFinderPostFind find: 'ho'.
+	self assert: (self assertThat: sentenceFinderPostFind getStack isEqualTo: sentenceFinderPreviousFind getStack).! !
 
 !SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/4/2020 17:48:52'!
 test03prefixIsNotEmptyString
@@ -204,8 +204,8 @@ test04prefixHasNotSpaceChars
 		raise: Error
 		withExceptionDo: [:anError | anError messageText = SentenceFinderByPrefix prefixCannotHaveSpaceChars  ].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/4/2020 17:49:18'!
-test05prefixIsSubStringButNotprefixOfAnyString
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/7/2020 15:11:24'!
+test05prefixIsSubStringButNotPrefixOfAnyString
 	
 	| finder |
 	
@@ -213,8 +213,8 @@ test05prefixIsSubStringButNotprefixOfAnyString
 	
 	self assert: (finder find: 'ami') = OrderedCollection new.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/4/2020 18:06:43'!
-test06prefixIsNotInTheStack
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/7/2020 15:16:59'!
+test06prefixDoesNotMatchAnyStringInTheStack
 	
 	| finder |
 	
@@ -222,49 +222,74 @@ test06prefixIsNotInTheStack
 	
 	self assert: (finder find: 'papadupoulos') = OrderedCollection new.! !
 
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'GR 10/7/2020 15:38:37'!
+test07findAStringInEmptyStackReturnsNothing
+	
+	| finder |
+	
+	finder := SentenceFinderByPrefix newWith: OOStack new.
+	
+	self assert: (finder find: 'ho') = OrderedCollection new.! !
+
+
+!SentenceFinderByPrefixTest methodsFor: 'private' stamp: 'GR 10/7/2020 16:28:48'!
+assertThat: aSentenceStack isEqualTo: anotherSentenceStack
+
+	1 to: (aSentenceStack size) do: [ :index |
+		(aSentenceStack pop = anotherSentenceStack pop) ifFalse: [^false] ].
+	
+	^true.! !
+
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: 'stack'
+	instanceVariableNames: 'elements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'initialization' stamp: 'GR 10/4/2020 15:07:31'!
+!OOStack methodsFor: 'initialization' stamp: 'GR 10/7/2020 14:47:28'!
 initializeNew
 
-	stack := OrderedCollection new.! !
+	| base |
+	elements := OrderedCollection new.
+	base := OOStackNullElement new.
+	elements add: base! !
 
 
-!OOStack methodsFor: 'testing' stamp: 'GR 10/4/2020 15:09:29'!
+!OOStack methodsFor: 'testing' stamp: 'GR 10/5/2020 22:04:59'!
 isEmpty
 
-	^stack isEmpty! !
+	^elements size = 1! !
 
-!OOStack methodsFor: 'testing' stamp: 'GR 10/4/2020 15:17:30'!
+!OOStack methodsFor: 'testing' stamp: 'GR 10/5/2020 22:04:49'!
 size
 
-	^stack size! !
+	^elements size - 1! !
 
 
-!OOStack methodsFor: 'operations' stamp: 'GR 10/4/2020 15:37:20'!
+!OOStack methodsFor: 'operations' stamp: 'GR 10/5/2020 21:57:28'!
 pop
+	
+	| topElement topElementValue |
+	
+	topElement := elements last.
+	topElementValue := topElement getValue.
+	elements removeLast.
+	^topElementValue.! !
 
-	stack isEmpty 
-		ifFalse: [ ^stack removeFirst] 
-		ifTrue: [ self error: OOStack stackEmptyErrorDescription ]! !
+!OOStack methodsFor: 'operations' stamp: 'GR 10/7/2020 14:50:22'!
+push: anElement
 
-!OOStack methodsFor: 'operations' stamp: 'GR 10/4/2020 15:16:01'!
-push: something
+	elements addLast: (OOStackRealElement with: anElement)! !
 
-	stack addFirst: something! !
-
-!OOStack methodsFor: 'operations' stamp: 'GR 10/4/2020 17:57:41'!
+!OOStack methodsFor: 'operations' stamp: 'GR 10/5/2020 22:01:04'!
 top
 	
-	stack isEmpty 
-		ifFalse: [ ^stack first ] 
-		ifTrue: [ self error: OOStack stackEmptyErrorDescription ]! !
+	| topElement |
+	
+	topElement := elements last.
+	^topElement getValue.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -278,49 +303,132 @@ stackEmptyErrorDescription
 	^ 'Stack is empty!!'! !
 
 
-!OOStack class methodsFor: 'initialization' stamp: 'GR 10/4/2020 15:07:56'!
+!OOStack class methodsFor: 'instance creation' stamp: 'GR 10/7/2020 15:53:55'!
 new
 	
-	^super new initializeNew! !
+	^self basicNew initializeNew.! !
 
 
-!classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
-Object subclass: #SentenceFinderByPrefix
-	instanceVariableNames: 'stack'
+!classDefinition: #OOStackElements category: 'Stack-Exercise'!
+Object subclass: #OOStackElements
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'initialization' stamp: 'GR 10/4/2020 17:37:49'!
+!OOStackElements methodsFor: 'operations' stamp: 'GR 10/7/2020 14:45:13'!
+getValue
+
+	^self subclassResponsibility.! !
+
+
+!OOStackElements methodsFor: 'as yet unclassified' stamp: 'GR 10/5/2020 22:04:13'!
+initializeWith: something
+
+	value := something! !
+
+
+!classDefinition: #OOStackNullElement category: 'Stack-Exercise'!
+OOStackElements subclass: #OOStackNullElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackNullElement methodsFor: 'accessing' stamp: 'GR 10/7/2020 15:53:35'!
+getValue
+	
+	self error: OOStack stackEmptyErrorDescription.! !
+
+
+!classDefinition: #OOStackRealElement category: 'Stack-Exercise'!
+OOStackElements subclass: #OOStackRealElement
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackRealElement methodsFor: 'accessing' stamp: 'GR 10/7/2020 14:55:45'!
+getValue
+
+	^value.! !
+
+
+!OOStackRealElement methodsFor: 'initialization' stamp: 'GR 10/7/2020 14:55:20'!
+initializeWith: aValue
+
+	value := aValue .! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOStackRealElement class' category: 'Stack-Exercise'!
+OOStackRealElement class
+	instanceVariableNames: ''!
+
+!OOStackRealElement class methodsFor: 'instance creation' stamp: 'GR 10/7/2020 14:55:38'!
+with: aValue
+
+	^self new initializeWith: aValue .! !
+
+
+!classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
+Object subclass: #SentenceFinderByPrefix
+	instanceVariableNames: 'stringStack'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!SentenceFinderByPrefix methodsFor: 'initialization' stamp: 'GR 10/7/2020 16:17:51'!
 initializeStack: aStack
 
-	stack := aStack.! !
+	stringStack := aStack.! !
 
 
-!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'GR 10/4/2020 17:52:14'!
+!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'GR 10/7/2020 16:14:50'!
 find: aPrefix
 	
-	| stackCopy actual matches |
+	self isValidPrefix: aPrefix.
 	
-	matches := OrderedCollection new.
-	
+	^self searchStringsWith: aPrefix.! !
+
+
+!SentenceFinderByPrefix methodsFor: 'accessing' stamp: 'GR 10/7/2020 16:04:44'!
+getStack
+
+	^stringStack! !
+
+
+!SentenceFinderByPrefix methodsFor: 'testing' stamp: 'GR 10/7/2020 16:11:39'!
+isValidPrefix: aPrefix
+
 	aPrefix isEmpty ifTrue: [ self error: SentenceFinderByPrefix prefixCannotBeEmptyString ].
-	(aPrefix allSatisfy: [:a | a ~~ ' ' ]) 
-		ifFalse: [ self error: SentenceFinderByPrefix prefixCannotHaveSpaceChars ].
 	
-	"Aca queremos hacer una copia pero no funciona deepCopy (messageNotUnderstood)"
-	stackCopy := stack.
-	1 to: (stack size) do: [ :i |
-		actual := stackCopy pop.
-		(actual beginsWith: aPrefix) ifTrue: [matches add: actual] ].
+	(aPrefix includesSubString: ' ') ifTrue: [ self error: SentenceFinderByPrefix prefixCannotHaveSpaceChars ]! !
+
+
+!SentenceFinderByPrefix methodsFor: 'private' stamp: 'GR 10/7/2020 16:16:47'!
+restoreStack: aStackRestorer
+
+	1 to: (aStackRestorer size) do: [ :i |
+		stringStack push: aStackRestorer pop. ]! !
+
+!SentenceFinderByPrefix methodsFor: 'private' stamp: 'GR 10/7/2020 16:16:41'!
+searchStringsWith: aPrefix
+
+	| actual stackRestorer matches|
+
+	matches := OrderedCollection new.
+	stackRestorer := OOStack new.
+
+	1 to: (stringStack size) do: [ :index |
+		actual := stringStack pop.
+		(actual beginsWith: aPrefix) ifTrue: [matches add: actual]. 
+		stackRestorer push: actual].
+
+	self restoreStack: stackRestorer.
 	
-	^matches! !
-
-
-!SentenceFinderByPrefix methodsFor: 'accessing' stamp: 'GR 10/4/2020 17:00:38'!
-stack
-
-	^stack! !
+	^matches.
+	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
