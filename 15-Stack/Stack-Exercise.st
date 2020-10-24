@@ -273,8 +273,7 @@ pop
 	
 	| topElement topElementValue |
 	
-	topElement := elements last.
-	topElementValue := topElement getValue.
+	topElementValue := self top.
 	elements removeLast.
 	^topElementValue.! !
 
