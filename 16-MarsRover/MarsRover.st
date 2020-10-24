@@ -1,88 +1,70 @@
 !classDefinition: #MarsRoverTest category: 'MarsRover'!
 TestCase subclass: #MarsRoverTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'marsRoverNorth marsRoverEast marsRoverSouth marsRoverWest'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:36:49'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:04:56'!
 test01ForwardNorthMovesRoverOnePositionToNorth
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: North new.
-	
-	rover sendCommandSet: 'f'.
-	
-	self assert: (1@2) equals: rover position.! !
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@2) withDirection: North whenSendingCommandSet: 'f'.! !
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:36:59'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:06:49'!
 test02BackwardNorthMovesRoverOnePositionToSouth
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: North new.
-	
-	rover sendCommandSet: 'b'.
-	
-	self assert: (1@0) equals: rover position.! !
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@0) withDirection: North whenSendingCommandSet: 'b'.! !
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:38:06'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:06:53'!
 test03LeftNorthChangesRoverDirectionToWest
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: North new.
-	
-	rover sendCommandSet: 'l'.
-	
-	self assert: West equals: rover direction.! !
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@1) withDirection: West whenSendingCommandSet: 'l'.! !
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:40:26'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:06:57'!
 test04RightNorthChangesRoverDirectionToEast
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: North new.
-	
-	rover sendCommandSet: 'r'.
-	
-	self assert: East equals: rover direction.! !
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@1) withDirection: East whenSendingCommandSet: 'r'.! !
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:41:12'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:07:08'!
 test05ForwardEastMovesRoverOnePositionToEast
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: East new.
-	
-	rover sendCommandSet: 'f'.
-	
-	self assert: (2@1) equals: rover position.! !
+	self assertMarsRover: marsRoverEast endsInPosition: (2@1) withDirection: East whenSendingCommandSet: 'f'.! !
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:41:52'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:07:24'!
 test06RoverCanHandleACommandString
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: East new.
-	
-	rover sendCommandSet: 'flbl'.
-	
-	self assert: (2@0) equals: rover position.
-	self assert: West equals: rover direction.! !
+	self assertMarsRover: marsRoverEast endsInPosition: (2@0) withDirection: West whenSendingCommandSet: 'flbl'.! !
 
-!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:44:33'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:58:43'!
 test07RoverCanNotHandleCommandStringWithInvalidCommand
 
-	| rover |
-	
-	rover := MarsRover newInPosition: (1@1) andDirection: East new.
-	
 	self 
-		should: [ rover sendCommandSet: 'fabl'. ]	 
+		should: [ marsRover sendCommandSet: 'fabi'. ]	 
 		raise: Error
 		description: MarsRover commandNotUnderstood.! !
+
+
+!MarsRoverTest methodsFor: 'setUp' stamp: 'GR 10/24/2020 19:03:51'!
+setUp
+
+	marsRoverNorth := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	marsRoverEast := MarsRover newInPosition: (1@1) andDirection: East new.
+	
+	marsRoverSouth := MarsRover newInPosition: (1@1) andDirection: South new.
+	
+	marsRoverWest := MarsRover newInPosition: (1@1) andDirection: West new.
+	
+	! !
+
+
+!MarsRoverTest methodsFor: 'private' stamp: 'GR 10/24/2020 19:08:14'!
+assertMarsRover: aMarsRover endsInPosition: aPosition withDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	aMarsRover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: aMarsRover position.
+	self assert: aDirection equals: aMarsRover direction.! !
 
 
 !classDefinition: #Direction category: 'MarsRover'!
@@ -116,7 +98,7 @@ rightCardinalPoint
 
 !classDefinition: #East category: 'MarsRover'!
 Direction subclass: #East
-	instanceVariableNames: 'rover'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover'!

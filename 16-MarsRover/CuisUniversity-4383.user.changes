@@ -3843,3 +3843,374 @@ PASSED!
 PASSED!
 
 ----QUIT----(24 October 2020 18:46:05) CuisUniversity-4383.image priorSource: 18501252!
+
+----STARTUP---- (24 October 2020 18:49:44) as /home/grosinov/linux64/CuisUniversity-4383.image!
+
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:51:32'!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: 'f'.
+	
+	self assert: (1@2) equals: rover position.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:52:06' prior: 50911634!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: 'f'.
+	
+	self assert: aPosition equals: rover position.
+	self assert: aDirection equals: rover direction.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:52:41'!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: rover position.
+	self assert: aDirection equals: rover direction.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:53:00' prior: 50911655!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: rover position.
+	self assert: aDirection equals: rover direction.! !
+
+Direction subclass: #East
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classDefinition: #East category: 'MarsRover' stamp: 'GR 10/24/2020 18:53:08'!
+Direction subclass: #East
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!methodRemoval: MarsRoverTest #assertMarsRoverPositionIs:andDirection: stamp: 'GR 10/24/2020 18:53:16'!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: 'f'.
+	
+	self assert: aPosition equals: rover position.
+	self assert: aDirection equals: rover direction.!
+
+!classDefinition: #MarsRoverTest category: 'MarsRover' stamp: 'GR 10/24/2020 18:54:20'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: 'marsRover'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:54:19' prior: 50911668!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	marsRover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: marsRover position.
+	self assert: aDirection equals: marsRover direction.! !
+!MarsRoverTest methodsFor: 'nil' stamp: 'GR 10/24/2020 18:54:35' overrides: 16927572!
+setUp
+
+	marsRover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:55:48' prior: 50911475!
+test01ForwardNorthMovesRoverOnePositionToNorth
+
+	self assertMarsRoverPositionIs: (1@2) andDirection: North new whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:56:06' prior: 50911494!
+test02BackwardNorthMovesRoverOnePositionToSouth
+
+	self assertMarsRoverPositionIs: (1@0) andDirection: North new whenSendingCommandSet: 'b'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:56:42' prior: 50911513!
+test03LeftNorthChangesRoverDirectionToWest
+
+	self assertMarsRoverPositionIs: (1@1) andDirection: West whenSendingCommandSet: 'l'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:56:46' prior: 50911735!
+test02BackwardNorthMovesRoverOnePositionToSouth
+
+	self assertMarsRoverPositionIs: (1@0) andDirection: North whenSendingCommandSet: 'b'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:56:50' prior: 50911727!
+test01ForwardNorthMovesRoverOnePositionToNorth
+
+	self assertMarsRoverPositionIs: (1@2) andDirection: North whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:57:17' prior: 50911529!
+test04RightNorthChangesRoverDirectionToEast
+
+	self assertMarsRoverPositionIs: (1@1) andDirection: East whenSendingCommandSet: 'r'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:57:43' prior: 50911545!
+test05ForwardEastMovesRoverOnePositionToEast
+
+	self assertMarsRoverPositionIs: (2@1) andDirection: East whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:58:11' prior: 50911561!
+test06RoverCanHandleACommandString
+
+	self assertMarsRoverPositionIs: (2@0) andDirection: West whenSendingCommandSet: 'flbl'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:58:25' prior: 50911580!
+test07RoverCanNotHandleCommandStringWithInvalidCommand
+
+	self 
+		should: [ marsRover sendCommandSet: 'fabl'. ]	 
+		raise: Error
+		description: MarsRover commandNotUnderstood.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:58:32' prior: 50911786!
+test07RoverCanNotHandleCommandStringWithInvalidCommand
+
+	self 
+		should: [ marsRover sendCommandSet: 'gaston'. ]	 
+		raise: Error
+		description: MarsRover commandNotUnderstood.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 18:58:43' prior: 50911795!
+test07RoverCanNotHandleCommandStringWithInvalidCommand
+
+	self 
+		should: [ marsRover sendCommandSet: 'fabi'. ]	 
+		raise: Error
+		description: MarsRover commandNotUnderstood.! !
+
+!testRun: #MarsRoverTest #test07RoverCanNotHandleCommandStringWithInvalidCommand stamp: 'GR 10/24/2020 18:58:56'!
+PASSED!
+
+!testRun: #MarsRoverTest #test01ForwardNorthMovesRoverOnePositionToNorth stamp: 'GR 10/24/2020 18:58:56'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02BackwardNorthMovesRoverOnePositionToSouth stamp: 'GR 10/24/2020 18:58:56'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03LeftNorthChangesRoverDirectionToWest stamp: 'GR 10/24/2020 18:58:56'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04RightNorthChangesRoverDirectionToEast stamp: 'GR 10/24/2020 18:58:56'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05ForwardEastMovesRoverOnePositionToEast stamp: 'GR 10/24/2020 18:58:56'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test06RoverCanHandleACommandString stamp: 'GR 10/24/2020 18:58:56'!
+FAILURE!
+
+!testRun: #MarsRoverTest #test07RoverCanNotHandleCommandStringWithInvalidCommand stamp: 'GR 10/24/2020 18:58:56'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05ForwardEastMovesRoverOnePositionToEast stamp: 'GR 10/24/2020 18:59:10'!
+FAILURE!
+!MarsRoverTest methodsFor: 'private' stamp: 'GR 10/24/2020 19:01:23' prior: 50911710!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: marsRover position.
+	self assert: aDirection equals: marsRover direction.! !
+
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classDefinition: #MarsRoverTest category: 'MarsRover' stamp: 'GR 10/24/2020 19:01:30'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: 'marsRoverNorth marsRoverEast marsRoverSouth marsRoverWest'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+
+!classDefinition: #MarsRoverTest category: 'MarsRover' stamp: 'GR 10/24/2020 19:03:16'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: 'marsRoverNorth marsRoverEast marsRoverSouth marsRoverWest'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover'!
+!MarsRoverTest methodsFor: 'setUp' stamp: 'GR 10/24/2020 19:03:51' prior: 50911721 overrides: 16927572!
+setUp
+
+	marsRoverNorth := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	marsRoverEast := MarsRover newInPosition: (1@1) andDirection: East new.
+	
+	marsRoverSouth := MarsRover newInPosition: (1@1) andDirection: South new.
+	
+	marsRoverWest := MarsRover newInPosition: (1@1) andDirection: West new.
+	
+	! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:04:50' prior: 50911758!
+test01ForwardNorthMovesRoverOnePositionToNorth
+
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@2) andDirection: North whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:04:56' prior: 50911897!
+test01ForwardNorthMovesRoverOnePositionToNorth
+
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@2) withDirection: North whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'private' stamp: 'GR 10/24/2020 19:06:00'!
+assertMarsRover: aMarsRover assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: marsRover position.
+	self assert: aDirection equals: marsRover direction.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:00' prior: 50911772!
+test05ForwardEastMovesRoverOnePositionToEast
+
+	self assertMarsRover: marsRover assertMarsRoverPositionIs: (2@1) andDirection: East whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:00' prior: 50911779!
+test06RoverCanHandleACommandString
+
+	self assertMarsRover: marsRover assertMarsRoverPositionIs: (2@0) andDirection: West whenSendingCommandSet: 'flbl'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:00' prior: 50911750!
+test02BackwardNorthMovesRoverOnePositionToSouth
+
+	self assertMarsRover: marsRover assertMarsRoverPositionIs: (1@0) andDirection: North whenSendingCommandSet: 'b'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:00' prior: 50911743!
+test03LeftNorthChangesRoverDirectionToWest
+
+	self assertMarsRover: marsRover assertMarsRoverPositionIs: (1@1) andDirection: West whenSendingCommandSet: 'l'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:00' prior: 50911765!
+test04RightNorthChangesRoverDirectionToEast
+
+	self assertMarsRover: marsRover assertMarsRoverPositionIs: (1@1) andDirection: East whenSendingCommandSet: 'r'.! !
+
+!methodRemoval: MarsRoverTest #assertMarsRoverPositionIs:andDirection:whenSendingCommandSet: stamp: 'GR 10/24/2020 19:06:00'!
+assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: marsRover position.
+	self assert: aDirection equals: marsRover direction.!
+!MarsRoverTest methodsFor: 'private' stamp: 'GR 10/24/2020 19:06:28'!
+assertMarsRover: aMarsRover endsInPosition: aPosition withDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: marsRover position.
+	self assert: aDirection equals: marsRover direction.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:28' prior: 50911945!
+test02BackwardNorthMovesRoverOnePositionToSouth
+
+	self assertMarsRover: marsRover endsInPosition: (1@0) withDirection: North whenSendingCommandSet: 'b'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:28' prior: 50911954!
+test03LeftNorthChangesRoverDirectionToWest
+
+	self assertMarsRover: marsRover endsInPosition: (1@1) withDirection: West whenSendingCommandSet: 'l'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:28' prior: 50911937!
+test06RoverCanHandleACommandString
+
+	self assertMarsRover: marsRover endsInPosition: (2@0) withDirection: West whenSendingCommandSet: 'flbl'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:28' prior: 50911963!
+test04RightNorthChangesRoverDirectionToEast
+
+	self assertMarsRover: marsRover endsInPosition: (1@1) withDirection: East whenSendingCommandSet: 'r'.! !
+!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'GR 10/24/2020 19:06:28' prior: 50911928!
+test05ForwardEastMovesRoverOnePositionToEast
+
+	self assertMarsRover: marsRover endsInPosition: (2@1) withDirection: East whenSendingCommandSet: 'f'.! !
+
+!methodRemoval: MarsRoverTest #assertMarsRover:assertMarsRoverPositionIs:andDirection:whenSendingCommandSet: stamp: 'GR 10/24/2020 19:06:28'!
+assertMarsRover: aMarsRover assertMarsRoverPositionIs: aPosition andDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	| rover |
+	
+	rover := MarsRover newInPosition: (1@1) andDirection: North new.
+	
+	rover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: marsRover position.
+	self assert: aDirection equals: marsRover direction.!
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:06:49' prior: 50911999!
+test02BackwardNorthMovesRoverOnePositionToSouth
+
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@0) withDirection: North whenSendingCommandSet: 'b'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:06:53' prior: 50912007!
+test03LeftNorthChangesRoverDirectionToWest
+
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@1) withDirection: West whenSendingCommandSet: 'l'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:06:57' prior: 50912023!
+test04RightNorthChangesRoverDirectionToEast
+
+	self assertMarsRover: marsRoverNorth endsInPosition: (1@1) withDirection: East whenSendingCommandSet: 'r'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:07:01' prior: 50912031!
+test05ForwardEastMovesRoverOnePositionToEast
+
+	self assertMarsRover: marsRoverNorth endsInPosition: (2@1) withDirection: East whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:07:08' prior: 50912078!
+test05ForwardEastMovesRoverOnePositionToEast
+
+	self assertMarsRover: marsRoverEast endsInPosition: (2@1) withDirection: East whenSendingCommandSet: 'f'.! !
+!MarsRoverTest methodsFor: 'testing' stamp: 'GR 10/24/2020 19:07:24' prior: 50912015!
+test06RoverCanHandleACommandString
+
+	self assertMarsRover: marsRoverEast endsInPosition: (2@0) withDirection: West whenSendingCommandSet: 'flbl'.! !
+!MarsRoverTest methodsFor: 'private' stamp: 'GR 10/24/2020 19:08:14' prior: 50911985!
+assertMarsRover: aMarsRover endsInPosition: aPosition withDirection: aDirection whenSendingCommandSet: aCommandSet
+
+	aMarsRover sendCommandSet: aCommandSet.
+	
+	self assert: aPosition equals: aMarsRover position.
+	self assert: aDirection equals: aMarsRover direction.! !
+
+!testRun: #MarsRoverTest #test06RoverCanHandleACommandString stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test01ForwardNorthMovesRoverOnePositionToNorth stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02BackwardNorthMovesRoverOnePositionToSouth stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03LeftNorthChangesRoverDirectionToWest stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04RightNorthChangesRoverDirectionToEast stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test05ForwardEastMovesRoverOnePositionToEast stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06RoverCanHandleACommandString stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07RoverCanNotHandleCommandStringWithInvalidCommand stamp: 'GR 10/24/2020 19:08:23'!
+PASSED!
+
+----QUIT----(24 October 2020 19:08:45) CuisUniversity-4383.image priorSource: 18559269!
