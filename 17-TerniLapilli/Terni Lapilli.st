@@ -622,12 +622,6 @@ initialize
 	isOver := false.
 	turn := playerX.! !
 
-!TerniLapilli methodsFor: 'initialization' stamp: 'MMT 11/1/2020 19:57:29'!
-initializeWith: aTerniLapilliState
-
-	"state := aDoorState"
-! !
-
 
 !TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:28:25'!
 beforeWinning: aPlayer PlacesPieceTo: aPosition AndPutItIn: hisOccupiedPieces AndChangeTurnTo: anotherPlayer
