@@ -140,10 +140,10 @@ test09EachPlayerCanNotPlaceMoreThanThreePieces
 			self assert: (TerniLapilli canNotPlaceMoreThanThreePieces = anError messageText)
 			]! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:24:29'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/1/2020 20:16:31'!
 test10PlayerCanNotMoveMoreThanOnePosition
 	
-	| juego |
+	| juego playerX occupiedXPositions playerO |
 	
 	juego := TerniLapilli new.
 	
@@ -154,8 +154,13 @@ test10PlayerCanNotMoveMoreThanOnePosition
 	juego putXAt: (-1@1).
 	juego putOAt: (1@0).
 	
+	playerX := juego playerX.
+	playerO := juego playerO.
+	occupiedXPositions := juego occupiedXPositions.
+	 
+	
 	self 
-		should: [ juego playerXMovesFrom: (0@-1) to: (0@1). ]
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (0@-1) To: (0@1) AndChangeTurnTo: playerO. ]
 		raise: Error
 		withExceptionDo: [ :anError |
 			self assert: (TerniLapilli canNotDoAnInvalidMove = anError messageText)
@@ -163,10 +168,10 @@ test10PlayerCanNotMoveMoreThanOnePosition
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:24:36'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/1/2020 20:16:31'!
 test11PlayerCanNotMoveAPieceOutsideTheBoard
 	
-	| juego |
+	| juego playerX occupiedXPositions playerO |
 	
 	juego := TerniLapilli new.
 	
@@ -177,8 +182,12 @@ test11PlayerCanNotMoveAPieceOutsideTheBoard
 	juego putXAt: (-1@1).
 	juego putOAt: (1@0).
 	
+	playerX := juego playerX.
+	playerO  := juego playerO.
+	occupiedXPositions := juego occupiedXPositions.
+	
 	self 
-		should: [ juego playerXMovesFrom: (0@0) to: (0@4). ]
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (0@0) To: (0@4) AndChangeTurnTo: playerO .]
 		raise: Error
 		withExceptionDo: [ :anError |
 			self assert: (TerniLapilli canNotDoAnInvalidMove = anError messageText)
@@ -186,10 +195,10 @@ test11PlayerCanNotMoveAPieceOutsideTheBoard
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:24:42'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/1/2020 20:16:31'!
 test12PlayerCanNotMoveAPieceThatIsNotOnTheBoard
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -199,9 +208,14 @@ test12PlayerCanNotMoveAPieceThatIsNotOnTheBoard
 	juego putOAt: (1@1).
 	juego putXAt: (-1@1).
 	juego putOAt: (1@0).
+
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
 	
 	self 
-		should: [ juego playerXMovesFrom: (-1@0) to: (-1@-1). ]
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (-1@0) To: (-1@-1) AndChangeTurnTo: playerO.]
 		raise: Error
 		withExceptionDo: [ :anError |
 			self assert: (TerniLapilli canNotDoAnInvalidMove = anError messageText)
@@ -209,10 +223,10 @@ test12PlayerCanNotMoveAPieceThatIsNotOnTheBoard
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:24:46'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/1/2020 20:16:31'!
 test13PlayerCanNotMoveAPieceToAnOccupiedPosition
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -223,8 +237,14 @@ test13PlayerCanNotMoveAPieceToAnOccupiedPosition
 	juego putXAt: (-1@1).
 	juego putOAt: (1@0).
 	
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
+	
 	self 
-		should: [ juego playerXMovesFrom: (0@0) to: (0@-1). ]
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (0@0) To: (0@-1) AndChangeTurnTo: playerO .]
 		raise: Error
 		withExceptionDo: [ :anError |
 			self assert: (TerniLapilli canNotDoAnInvalidMove = anError messageText)
@@ -232,10 +252,10 @@ test13PlayerCanNotMoveAPieceToAnOccupiedPosition
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:24:55'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/1/2020 20:16:31'!
 test14PlayerCanNotDoADiagonalMoveIfItIsNotFromCenterOrCorner
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -246,8 +266,13 @@ test14PlayerCanNotDoADiagonalMoveIfItIsNotFromCenterOrCorner
 	juego putXAt: (-1@1).
 	juego putOAt: (-1@-1).
 	
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
 	self 
-		should: [ juego playerXMovesFrom: (0@1) to: (-1@0). ]
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (0@1) To: (-1@0) AndChangeTurnTo: playerO.]
 		raise: Error
 		withExceptionDo: [ :anError |
 			self assert: (TerniLapilli canNotDoAnInvalidMove = anError messageText)
@@ -255,10 +280,10 @@ test14PlayerCanNotDoADiagonalMoveIfItIsNotFromCenterOrCorner
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:29:12'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/1/2020 20:16:31'!
 test15PlayerCanMoveFromCenterToAnyEmptyPosition
 	
-	| juego |
+	| juego occupiedXPositions playerX playerO|
 	
 	juego := TerniLapilli new.
 	
@@ -269,17 +294,24 @@ test15PlayerCanMoveFromCenterToAnyEmptyPosition
 	juego putXAt: (-1@1).
 	juego putOAt: (-1@-1).
 	
-	juego playerXMovesFrom: (0@0) to: (-1@0).
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
+	juego move: playerX PieceFrom: occupiedXPositions In: (0@0) To: (-1@0) AndChangeTurnTo: playerO .
+	
+	
 	
 	self assert: (juego isOccupied: (-1@0)).
 	self assert: (juego isPlaying: juego playerO)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 17:35:33'!
-test16PlayerCanMoveFromAnywhereToAdjacentPosition
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:04:08'!
+test16PlayerCanNotMovePieceFromOtherPlayer
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -290,18 +322,52 @@ test16PlayerCanMoveFromAnywhereToAdjacentPosition
 	juego putXAt: (-1@1).
 	juego putOAt: (-1@-1).
 	
-	juego playerXMovesFrom: (0@0) to: (-1@0).
-	juego playerOMovesFrom: (1@1) to: (1@0).
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
+	self 
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (-1@-1) To: (-1@0) AndChangeTurnTo: playerO.]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: (TerniLapilli canNotDoAnInvalidMove = anError messageText)
+			]
+	
+	! !
+
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:04:21'!
+test17PlayerCanMoveFromAnywhereToAdjacentPosition
+	
+	| juego occupiedOPositions occupiedXPositions playerO playerX |
+	
+	juego := TerniLapilli new.
+	
+	juego putXAt: (0@0).
+	juego putOAt: (0@-1).
+	juego putXAt: (0@1).
+	juego putOAt: (1@1).
+	juego putXAt: (-1@1).
+	juego putOAt: (-1@-1).
+	
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	occupiedOPositions := juego occupiedOPositions.
+	
+	
+	juego move: playerX PieceFrom: occupiedXPositions In: (0@0) To: (-1@0) AndChangeTurnTo: playerO .
+	juego move: playerO PieceFrom: occupiedOPositions In: (1@1) To: (1@0) AndChangeTurnTo: playerX .
 	
 	self assert: (juego isOccupied: (1@0)).
 	self assert: (juego isPlaying: juego playerX)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 18:13:15'!
-test17PlayerXWinsVertically
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:04:30'!
+test18PlayerXWinsVertically
 	
-	| juego |
+	| juego occupiedXPositions playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -311,15 +377,18 @@ test17PlayerXWinsVertically
 	juego putOAt: (1@1).
 	juego putXAt: (0@-1).
 	
-	self assert: (juego hasPlayerXWon).
+	playerX := juego playerX.
+	occupiedXPositions := juego occupiedXPositions. 
+	
+	self assert: (juego has: playerX WonWith: occupiedXPositions).
 	self assert: (juego isOver)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 18:16:05'!
-test18PlayerOWinsVertically
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:04:39'!
+test19PlayerOWinsVertically
 	
-	| juego |
+	| juego occupiedOPositions playerO |
 	
 	juego := TerniLapilli new.
 	
@@ -330,15 +399,18 @@ test18PlayerOWinsVertically
 	juego putXAt: (-1@-1).
 	juego putOAt: (0@-1).
 	
-	self assert: (juego hasPlayerOWon).
+	playerO := juego playerO.
+	occupiedOPositions := juego occupiedOPositions. 
+	
+	self assert: (juego has: playerO WonWith: occupiedOPositions).
 	self assert: (juego isOver)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 18:29:17'!
-test19PlayerXWinsHorizontally
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:04:48'!
+test20PlayerXWinsHorizontally
 	
-	| juego |
+	| juego occupiedXPositions playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -348,15 +420,18 @@ test19PlayerXWinsHorizontally
 	juego putOAt: (1@1).
 	juego putXAt: (-1@0).
 	
-	self assert: (juego hasPlayerXWon).
+	playerX := juego playerX.
+	occupiedXPositions := juego occupiedXPositions. 
+	
+	self assert: (juego has: playerX WonWith: occupiedXPositions ).
 	self assert: (juego isOver)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 18:48:22'!
-test20PlayerWinsDiagonally
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:04:59'!
+test21PlayerWinsDiagonally
 	
-	| juego |
+	| juego occupiedXPositions playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -366,15 +441,18 @@ test20PlayerWinsDiagonally
 	juego putOAt: (1@0).
 	juego putXAt: (1@1).
 	
-	self assert: (juego hasPlayerXWon).
+	playerX := juego playerX.
+	occupiedXPositions := juego occupiedXPositions. 
+	
+	self assert: (juego has: playerX WonWith: occupiedXPositions).
 	self assert: (juego isOver)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 19:28:11'!
-test21PlayerCanWinWithAMovement
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:05:07'!
+test22PlayerCanWinWithAMovement
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -385,17 +463,24 @@ test21PlayerCanWinWithAMovement
 	juego putXAt: (1@-1).
 	juego putOAt: (-1@-1).
 	
-	juego playerXMovesFrom: (1@-1) to: (0@-1).
 	
-	self assert: (juego hasPlayerXWon).
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
+	juego move: playerX PieceFrom: occupiedXPositions In: (1@-1) To: (0@-1) AndChangeTurnTo: playerO .
+	
+	
+	self assert: (juego has: playerX WonWith: occupiedXPositions ).
 	self assert: (juego isOver)
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 20:15:20'!
-test22PlayerCanNotPlaceAPieceIfGameIsOver
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:05:13'!
+test23PlayerCanNotPlaceAPieceIfGameIsOver
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -405,7 +490,13 @@ test22PlayerCanNotPlaceAPieceIfGameIsOver
 	juego putOAt: (1@1).
 	juego putXAt: (0@-1).
 	
-	self assert: (juego hasPlayerXWon).
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
+	
+	self assert: (juego has: playerX WonWith: occupiedXPositions).
 	self assert: (juego isOver).
 	self
 		should: [ juego putOAt: (1@0) ]
@@ -415,10 +506,10 @@ test22PlayerCanNotPlaceAPieceIfGameIsOver
 	
 	! !
 
-!TerniLapilliTest methodsFor: 'testing' stamp: 'GR 10/31/2020 20:45:29'!
-test23PlayerCanNotMoveAPieceIfGameIsOver
+!TerniLapilliTest methodsFor: 'testing' stamp: 'MMT 11/2/2020 01:05:20'!
+test24PlayerCanNotMoveAPieceIfGameIsOver
 	
-	| juego |
+	| juego occupiedXPositions playerO playerX |
 	
 	juego := TerniLapilli new.
 	
@@ -429,8 +520,13 @@ test23PlayerCanNotMoveAPieceIfGameIsOver
 	juego putXAt: (1@-1).
 	juego putOAt: (0@-1).
 	
+	playerX := juego playerX.
+	playerO := juego playerO .
+	occupiedXPositions := juego occupiedXPositions.
+	
+	
 	self
-		should: [ juego playerXMovesFrom: (-1@1) to: (-1@0) ]
+		should: [juego move: playerX PieceFrom: occupiedXPositions In: (-1@1) To: (-1@0) AndChangeTurnTo: playerO. ]
 		raise: Error
 		withExceptionDo: [:anError | 
 			self assert: TerniLapilli canNotPlayIfGameIsOver = anError messageText ]
@@ -451,7 +547,6 @@ initializeNewIn: aTerniLapilli
 	terniLapilli := aTerniLapilli.! !
 
 
-
 !Player methodsFor: 'actions' stamp: 'GR 10/31/2020 19:06:32'!
 movesThePieceIn: aPosition to: anotherPosition
 
@@ -461,8 +556,6 @@ movesThePieceIn: aPosition to: anotherPosition
 placesAPieceIn: aPosition
 	
 	self subclassResponsibility.! !
-
-
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -529,53 +622,81 @@ initialize
 	isOver := false.
 	turn := playerX.! !
 
+!TerniLapilli methodsFor: 'initialization' stamp: 'MMT 11/1/2020 19:57:29'!
+initializeWith: aTerniLapilliState
 
-!TerniLapilli methodsFor: 'operations' stamp: 'GR 10/31/2020 18:59:33'!
-playerOMovesFrom: aPosition to: anotherPosition
+	"state := aDoorState"
+! !
+
+
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:28:25'!
+beforeWinning: aPlayer PlacesPieceTo: aPosition AndPutItIn: hisOccupiedPieces AndChangeTurnTo: anotherPlayer
 	
-	playerO movesThePieceIn: aPosition to: anotherPosition.! !
-
-!TerniLapilli methodsFor: 'operations' stamp: 'GR 10/31/2020 18:58:25'!
-playerXMovesFrom: aPosition to: anotherPosition
 	
-	playerX movesThePieceIn: aPosition to: anotherPosition.! !
+	self thePlayer: aPlayer canPlaceAPieceIn: aPosition.
+	
+	hisOccupiedPieces add: aPosition.
+	
+	turn := anotherPlayer.
+	
+	self seeIfCertainPlayerWon: aPlayer with: hisOccupiedPieces .! !
 
-!TerniLapilli methodsFor: 'operations' stamp: 'GR 10/31/2020 18:59:53'!
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:08:03'!
+beforeWinning: aPlayer movesFrom: hisPieces ThePieceIn: aPosition to: anotherPosition AndChangeTurnTo: anotherPlayer
+	
+	(self isValidMoveFrom: aPosition to: anotherPosition) ifFalse: [ self error: TerniLapilli canNotDoAnInvalidMove ].
+	
+	hisPieces remove: aPosition ifAbsent: [self error: TerniLapilli canNotDoAnInvalidMove].
+	
+	hisPieces add: anotherPosition.
+	
+	turn := anotherPlayer.
+	
+	self seeIfCertainPlayerWon: aPlayer with: hisPieces .! !
+
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:16:43'!
+move: aPlayer PieceFrom: hisPieces In: aPosition To: anotherPosition AndChangeTurnTo: anotherPlayer
+	
+	^ self state move: aPlayer PieceFrom: hisPieces In: aPosition To: anotherPosition AndChangeTurnTo: anotherPlayer.
+	
+	! !
+
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:28:49'!
+place: aPlayer PieceTo: aPosition AndPutItIn: hisOccupiedPieces AndChangeTurnTo: anotherPlayer
+	
+	
+	^ self state place: aPlayer PieceTo: aPosition AndPutItIn: hisOccupiedPieces AndChangeTurnTo: anotherPlayer.! !
+
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 19:44:27'!
+playerTriesToPlayWhenGameIsOver
+
+	self error: TerniLapilli canNotPlayIfGameIsOver.! !
+
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:26:42'!
 putOAt: aPosition
 	
-	playerO placesAPieceIn: aPosition! !
+	
+	self place: playerO PieceTo: aPosition AndPutItIn: occupiedOPositions AndChangeTurnTo: playerX. 
+	! !
 
-!TerniLapilli methodsFor: 'operations' stamp: 'GR 10/31/2020 19:00:06'!
+!TerniLapilli methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:26:42'!
 putXAt: aPosition
 	
-	playerX placesAPieceIn: aPosition.! !
+	self place: playerX PieceTo: aPosition AndPutItIn: occupiedXPositions AndChangeTurnTo: playerO.! !
 
 
-!TerniLapilli methodsFor: 'testing' stamp: 'GR 10/31/2020 20:40:09'!
-hasPlayerOWon
+!TerniLapilli methodsFor: 'testing' stamp: 'MMT 11/1/2020 17:58:38'!
+has: aPlayer WonWith: aCertainPiecesInBoard
 	
 	| anOccupiedPosition |
 	
-	(occupiedOPositions size < 3) ifTrue: [ ^false ].
+	(aCertainPiecesInBoard size < 3) ifTrue: [ ^false ].
 	
-	anOccupiedPosition := occupiedOPositions detect: [ :aPosition | true].
+	anOccupiedPosition := aCertainPiecesInBoard detect: [ :aPosition | true].
 	
-	^ (occupiedOPositions allSatisfy: [ :aPosition | (anOccupiedPosition x = aPosition x)])  or:
-		(occupiedOPositions allSatisfy: [ :aPosition | (anOccupiedPosition y = aPosition y)]) or:
-		(self winsDiagonally: occupiedOPositions)! !
-
-!TerniLapilli methodsFor: 'testing' stamp: 'GR 10/31/2020 20:40:40'!
-hasPlayerXWon
-	
-	| anOccupiedPosition |
-	
-	(occupiedXPositions size < 3) ifTrue: [ ^false ].
-	
-	anOccupiedPosition := occupiedXPositions detect: [ :aPosition | true].
-	
-	^ (occupiedXPositions allSatisfy: [ :aPosition | (anOccupiedPosition x = aPosition x)])  or:
-		(occupiedXPositions allSatisfy: [ :aPosition | (anOccupiedPosition y = aPosition y)]) or:
-		(self winsDiagonally: occupiedXPositions).! !
+	^ (aCertainPiecesInBoard allSatisfy: [ :aPosition | (anOccupiedPosition x = aPosition x)])  or:
+		(aCertainPiecesInBoard allSatisfy: [ :aPosition | (anOccupiedPosition y = aPosition y)]) or:
+		(self winsDiagonally: aCertainPiecesInBoard)! !
 
 !TerniLapilli methodsFor: 'testing' stamp: 'GR 10/31/2020 16:24:26'!
 isAValidPosition: aPosition
@@ -653,62 +774,21 @@ isInTheBoard: aPosition
 
 	^ ((0@0) eightNeighbors includes: aPosition) or: aPosition = (0@0)! !
 
-!TerniLapilli methodsFor: 'private' stamp: 'GR 10/31/2020 20:43:45'!
-playerOPlacesAPieceIn: aPosition 
-	
-	(self isOver) ifTrue: [ self error: TerniLapilli canNotPlayIfGameIsOver ].
-	
-	self thePlayer: playerO canPlaceAPieceIn: aPosition.
-	
-	occupiedOPositions add: aPosition.
-	
-	turn := playerX.
-	
-	self seeIfPlayerOhasAWinningCondition .! !
+!TerniLapilli methodsFor: 'private' stamp: 'MMT 11/1/2020 19:56:22'!
+state 
 
-!TerniLapilli methodsFor: 'private' stamp: 'GR 10/31/2020 20:56:07'!
-playerOmovesThePieceIn: aPosition to: anotherPosition
+	^TerniLapilliState stateFor: self! !
 
-	(self isOver) ifTrue: [ self error: TerniLapilli canNotPlayIfGameIsOver ].
-	
-	(self isValidMoveFrom: aPosition to: anotherPosition) ifFalse: [ self error: TerniLapilli canNotDoAnInvalidMove ].
-	
-	occupiedOPositions remove: aPosition ifAbsent: [self error: TerniLapilli canNotDoAnInvalidMove].
-	
-	occupiedOPositions add: anotherPosition.
-	
-	turn := playerX.
-	
-	self seeIfPlayerOhasAWinningCondition .! !
 
-!TerniLapilli methodsFor: 'private' stamp: 'GR 10/31/2020 20:43:56'!
-playerXPlacesAPieceIn: aPosition 
+!TerniLapilli methodsFor: 'accessing' stamp: 'MMT 11/1/2020 18:20:32'!
+occupiedOPositions
 
-	(self isOver) ifTrue: [ self error: TerniLapilli canNotPlayIfGameIsOver ].
-	
-	self thePlayer: playerX canPlaceAPieceIn: aPosition.
-	
-	occupiedXPositions add: aPosition.
-	
-	turn := playerO.
-	
-	self seeIfPlayerXhasAWinningCondition .! !
+ 	^ occupiedOPositions! !
 
-!TerniLapilli methodsFor: 'private' stamp: 'GR 10/31/2020 20:47:17'!
-playerXmovesThePieceIn: aPosition to: anotherPosition
-	
-	( self isOver ) ifTrue: [ self error: TerniLapilli canNotPlayIfGameIsOver ].
-	
-	(self isValidMoveFrom: aPosition to: anotherPosition) ifFalse: [ self error: TerniLapilli canNotDoAnInvalidMove ].
-	
-	occupiedXPositions remove: aPosition ifAbsent: [self error: TerniLapilli canNotDoAnInvalidMove].
-	
-	occupiedXPositions add: anotherPosition.
-	
-	turn := playerO.
-	
-	self seeIfPlayerXhasAWinningCondition .! !
+!TerniLapilli methodsFor: 'accessing' stamp: 'MMT 11/1/2020 18:20:21'!
+occupiedXPositions
 
+ 	^ occupiedXPositions! !
 
 !TerniLapilli methodsFor: 'accessing' stamp: 'GR 10/31/2020 17:23:24'!
 playerO
@@ -721,15 +801,11 @@ playerX
 	^ playerX! !
 
 
-!TerniLapilli methodsFor: 'private -- testing' stamp: 'GR 10/31/2020 20:43:28'!
-seeIfPlayerOhasAWinningCondition
+!TerniLapilli methodsFor: 'private -- testing' stamp: 'MMT 11/1/2020 18:07:15'!
+seeIfCertainPlayerWon: aPlayer with: certainPiecesOcuppied
 	
-	isOver := self hasPlayerOWon.! !
-
-!TerniLapilli methodsFor: 'private -- testing' stamp: 'GR 10/31/2020 20:43:19'!
-seeIfPlayerXhasAWinningCondition
-	
-	isOver := self hasPlayerXWon.! !
+	isOver := self has: aPlayer WonWith: certainPiecesOcuppied
+	.! !
 
 !TerniLapilli methodsFor: 'private -- testing' stamp: 'GR 10/31/2020 20:13:55'!
 winsDiagonally: aPlayerPieces
@@ -766,3 +842,130 @@ canNotPlayIfGameIsOver
 canNotPlayInOthersTurn
 	
 	^ 'You can not play in the other player turn!!'! !
+
+
+!TerniLapilli class methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:31:01'!
+canHandle: aTerniLapilli
+
+	^ self subclassResponsibility 
+! !
+
+!TerniLapilli class methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:32:07'!
+for: aTerniLapilli
+
+	^ self new initializeFor: aTerniLapilli 
+
+! !
+
+!TerniLapilli class methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:33:15'!
+stateFor: aTerniLapilli
+
+	^(self subclasses detect: [:aTerniLapilliClass | aTerniLapilliClass canHandle: aTerniLapilli ]) for: aTerniLapilli! !
+
+
+!classDefinition: #TerniLapilliState category: 'Terni Lapilli'!
+Object subclass: #TerniLapilliState
+	instanceVariableNames: 'terniLapilli'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Terni Lapilli'!
+
+!TerniLapilliState methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:43:12'!
+initializeFor: aTerniLapilli
+
+	terniLapilli := aTerniLapilli ! !
+
+
+!TerniLapilliState methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:10:48'!
+move: aPlayer PieceFrom: hisPieces In: aPosition To: anotherPosition AndChangeTurnTo: anotherPlayer
+
+	^ self subclassResponsibility.! !
+
+!TerniLapilliState methodsFor: 'operations' stamp: 'MMT 11/1/2020 20:26:42'!
+place: aPlayer PieceTo: hisPieces AndPutItIn: aPosition AndChangeTurnTo: anotherPlayer
+
+	^ self subclassResponsibility.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TerniLapilliState class' category: 'Terni Lapilli'!
+TerniLapilliState class
+	instanceVariableNames: ''!
+
+!TerniLapilliState class methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:39:21'!
+canHandle: aTerniLapilli
+
+	^ self subclassResponsibility.! !
+
+!TerniLapilliState class methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:40:29'!
+for: aTerniLapilli
+
+	^ self new initializeFor: aTerniLapilli! !
+
+!TerniLapilliState class methodsFor: 'initialization' stamp: 'MMT 11/1/2020 17:42:38'!
+stateFor: aTerniLapilli
+
+	^ (self subclasses detect: [:aTerniLapilliState | aTerniLapilliState canHandle: aTerniLapilli]) for: aTerniLapilli. 
+	
+	! !
+
+
+!classDefinition: #FinishedTerniLapilliState category: 'Terni Lapilli'!
+TerniLapilliState subclass: #FinishedTerniLapilliState
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Terni Lapilli'!
+
+!FinishedTerniLapilliState methodsFor: 'as yet unclassified' stamp: 'MMT 11/1/2020 19:53:12'!
+move: aPlayer PieceFrom: hisPieces In: aPosition To: anotherPosition AndChangeTurnTo: anotherPlayer
+
+	^ terniLapilli playerTriesToPlayWhenGameIsOver.! !
+
+!FinishedTerniLapilliState methodsFor: 'as yet unclassified' stamp: 'MMT 11/1/2020 20:27:00'!
+place: aPlayer PieceTo: aPosition AndPutItIn: hisPieces AndChangeTurnTo: anotherPlayer
+
+	^ terniLapilli playerTriesToPlayWhenGameIsOver.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'FinishedTerniLapilliState class' category: 'Terni Lapilli'!
+FinishedTerniLapilliState class
+	instanceVariableNames: ''!
+
+!FinishedTerniLapilliState class methodsFor: 'as yet unclassified' stamp: 'MMT 11/1/2020 17:44:18'!
+canHandle: aTerniLapilli
+
+	^ aTerniLapilli isOver.! !
+
+
+!classDefinition: #NotFinishedTerniLapilliState category: 'Terni Lapilli'!
+TerniLapilliState subclass: #NotFinishedTerniLapilliState
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Terni Lapilli'!
+
+!NotFinishedTerniLapilliState methodsFor: 'as yet unclassified' stamp: 'MMT 11/1/2020 20:08:03'!
+move: aPlayer PieceFrom: hisPieces In: aPosition To: anotherPosition AndChangeTurnTo: anotherPlayer
+
+	
+
+	^ terniLapilli beforeWinning: aPlayer movesFrom: hisPieces ThePieceIn: aPosition to: anotherPosition  
+	                  AndChangeTurnTo:anotherPlayer. ! !
+
+!NotFinishedTerniLapilliState methodsFor: 'as yet unclassified' stamp: 'MMT 11/1/2020 20:30:24'!
+place: aPlayer PieceTo: aPosition AndPutItIn: hisPieces AndChangeTurnTo: anotherPlayer
+
+	^ terniLapilli beforeWinning: aPlayer PlacesPieceTo: aPosition  AndPutItIn: hisPieces AndChangeTurnTo: anotherPlayer. ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'NotFinishedTerniLapilliState class' category: 'Terni Lapilli'!
+NotFinishedTerniLapilliState class
+	instanceVariableNames: ''!
+
+!NotFinishedTerniLapilliState class methodsFor: 'as yet unclassified' stamp: 'MMT 11/1/2020 17:45:35'!
+canHandle: aTerniLapilli
+
+	^ aTerniLapilli  isOver not.! !
