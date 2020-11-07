@@ -39496,3 +39496,99 @@ test23PlayerCanNotMoveAPieceIfGameIsOver
 	!
 
 ----QUIT----(2 November 2020 01:05:25) CuisUniversity-4384.image priorSource: 18015727!
+
+----STARTUP---- (2 November 2020 05:25:29) as W:\cuisParcial\CuisUniversity-4384.image!
+
+
+----QUIT----(2 November 2020 05:25:44) CuisUniversity-4384.image priorSource: 18027956!
+
+----STARTUP---- (2 November 2020 14:46:07) as W:\cuisParcial\CuisUniversity-4384.image!
+
+
+!methodRemoval: TerniLapilli #initializeWith: stamp: 'MMT 11/2/2020 14:50:49'!
+initializeWith: aTerniLapilliState
+
+	"state := aDoorState"
+!
+
+!testRun: #TerniLapilliTest #test04XCanNotPlayInOTurn stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01GameStartsWithXTurn stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02AfterXPlaysIsOTurn stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03AfterOPlaysIsXTurn stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04XCanNotPlayInOTurn stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05OCanNotPlayInXTurn stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanNotPlacePieceOutsideTheBoard stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanNotPlacePieceOutsideTheBoard stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08CanNotPlacePieceOnOccupiedPosition stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09EachPlayerCanNotPlaceMoreThanThreePieces stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10PlayerCanNotMoveMoreThanOnePosition stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11PlayerCanNotMoveAPieceOutsideTheBoard stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12PlayerCanNotMoveAPieceThatIsNotOnTheBoard stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13PlayerCanNotMoveAPieceToAnOccupiedPosition stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14PlayerCanNotDoADiagonalMoveIfItIsNotFromCenterOrCorner stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15PlayerCanMoveFromCenterToAnyEmptyPosition stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16PlayerCanNotMovePieceFromOtherPlayer stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17PlayerCanMoveFromAnywhereToAdjacentPosition stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18PlayerXWinsVertically stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19PlayerOWinsVertically stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20PlayerXWinsHorizontally stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21PlayerWinsDiagonally stamp: 'MMT 11/2/2020 14:50:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22PlayerCanWinWithAMovement stamp: 'MMT 11/2/2020 14:50:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23PlayerCanNotPlaceAPieceIfGameIsOver stamp: 'MMT 11/2/2020 14:50:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24PlayerCanNotMoveAPieceIfGameIsOver stamp: 'MMT 11/2/2020 14:50:54'!
+PASSED!
+
+----SNAPSHOT----(2 November 2020 14:56:10) CuisUniversity-4384.image priorSource: 18028135!
+
+----STARTUP---- (2 November 2020 16:33:44) as W:\cuisParcial\CuisUniversity-4384.image!
+
+
+----QUIT----(2 November 2020 16:33:55) CuisUniversity-4384.image priorSource: 18031160!
