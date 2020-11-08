@@ -394,23 +394,53 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
-Object subclass: #Portfolio
-	instanceVariableNames: 'bankingEntities rootPortfolios'
+!classDefinition: #BankingEntity category: 'Portfolio-Ejercicio'!
+Object subclass: #BankingEntity
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'accessing' stamp: 'GR 11/7/2020 16:11:24'!
+!BankingEntity methodsFor: 'balance' stamp: 'GR 11/8/2020 18:36:47'!
 balance
-	
-	| totalBalance |
-	
-	totalBalance := 0. 
-	
-	bankingEntities do: [:aBankingEntity | totalBalance := totalBalance + aBankingEntity balance]. 
-	
-	^totalBalance.! !
+
+	self subclassResponsibility.! !
+
+
+!BankingEntity methodsFor: 'testing' stamp: 'GR 11/8/2020 18:37:06'!
+hasRegistered: aTransaction
+
+	self subclassResponsibility.! !
+
+
+!BankingEntity methodsFor: 'transactions' stamp: 'GR 11/8/2020 18:37:35'!
+transactions
+
+	self subclassResponsibility.! !
+
+
+!BankingEntity methodsFor: 'private' stamp: 'GR 11/8/2020 18:34:41'!
+addRootsOfParent: aPortfolio
+
+	self subclassResponsibility.! !
+
+!BankingEntity methodsFor: 'private' stamp: 'GR 11/8/2020 18:34:34'!
+lookFor: bankingEntity 
+
+	self subclassResponsibility.! !
+
+!BankingEntity methodsFor: 'private' stamp: 'GR 11/8/2020 18:34:05'!
+seeIfAlreadyInHierarchy: bankingEntity
+
+	self subclassResponsibility.! !
+
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
+BankingEntity subclass: #Portfolio
+	instanceVariableNames: 'bankingEntities rootPortfolios'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
 
 !Portfolio methodsFor: 'accessing' stamp: 'GR 11/7/2020 16:11:24'!
 isEmpty
@@ -421,17 +451,6 @@ isEmpty
 rootPortfolios
 	
 	^rootPortfolios! !
-
-!Portfolio methodsFor: 'accessing' stamp: 'GR 11/7/2020 16:11:24'!
-transactions
-	
-	| transactions |
-	
-	transactions := OrderedCollection new.
-	
-	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
-	
-	^ transactions.! !
 
 
 !Portfolio methodsFor: 'initialization' stamp: 'GR 11/7/2020 16:21:33'!
@@ -496,6 +515,30 @@ seeIfAlreadyInHierarchy: bankingEntity
 	
 	^isInTheHierarchy! !
 
+
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/7/2020 16:11:24'!
+transactions
+	
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	
+	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
+	
+	^ transactions.! !
+
+
+!Portfolio methodsFor: 'balance' stamp: 'GR 11/7/2020 16:11:24'!
+balance
+	
+	| totalBalance |
+	
+	totalBalance := 0. 
+	
+	bankingEntities do: [:aBankingEntity | totalBalance := totalBalance + aBankingEntity balance]. 
+	
+	^totalBalance.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Portfolio class' category: 'Portfolio-Ejercicio'!
@@ -509,7 +552,7 @@ cycleHierarchyError
 
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!
-Object subclass: #ReceptiveAccount
+BankingEntity subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''

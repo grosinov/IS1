@@ -21406,3 +21406,88 @@ PASSED!
 
 
 ----QUIT----(7 November 2020 17:22:43) CuisUniversity-4383.image priorSource: 19202003!
+
+----STARTUP---- (8 November 2020 18:30:56) as /home/grosinov/linux64/CuisUniversity-4383.image!
+
+
+Object subclass: #BankingEntity
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #BankingEntity category: 'Portfolio-Ejercicio' stamp: 'GR 11/8/2020 18:32:53'!
+Object subclass: #BankingEntity
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+BankingEntity subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio' stamp: 'GR 11/8/2020 18:33:03'!
+BankingEntity subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+BankingEntity subclass: #Portfolio
+	instanceVariableNames: 'bankingEntities rootPortfolios'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'GR 11/8/2020 18:33:10'!
+BankingEntity subclass: #Portfolio
+	instanceVariableNames: 'bankingEntities rootPortfolios'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!BankingEntity methodsFor: 'no messages' stamp: 'GR 11/8/2020 18:33:50'!
+seeIfAlreadyInHierarchy
+
+	self subclassResponsibility.! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:34:05'!
+seeIfAlreadyInHierarchy: bankingEntity
+
+	self subclassResponsibility.! !
+
+!methodRemoval: BankingEntity #seeIfAlreadyInHierarchy stamp: 'GR 11/8/2020 18:34:08'!
+seeIfAlreadyInHierarchy
+
+	self subclassResponsibility.!
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:34:17'!
+lookFor: bankingEntity ! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:34:28'!
+addRootsOfParent: aPortfolio ! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:34:34' prior: 50931779!
+lookFor: bankingEntity 
+
+	self subclassResponsibility.! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:34:41' prior: 50931783!
+addRootsOfParent: aPortfolio
+
+	self subclassResponsibility.! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:36:47'!
+balance
+
+	self subclassResponsibility.! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:37:03'!
+hasRegistered: aTransaction
+
+	self subclassResponsibility! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:37:06' prior: 50931802!
+hasRegistered: aTransaction
+
+	self subclassResponsibility.! !
+!BankingEntity methodsFor: 'as yet unclassified' stamp: 'GR 11/8/2020 18:37:35'!
+transactions
+
+	self subclassResponsibility.! !
+
+----QUIT----(8 November 2020 18:40:00) CuisUniversity-4383.image priorSource: 19202190!
