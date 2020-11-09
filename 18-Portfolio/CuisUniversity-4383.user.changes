@@ -21599,3 +21599,1000 @@ addBankingEntity: aBankingEntity
 	bankingEntities add: aBankingEntity! !
 
 ----QUIT----(9 November 2020 16:52:26) CuisUniversity-4383.image priorSource: 19205294!
+
+----STARTUP---- (9 November 2020 16:53:36) as /home/grosinov/linux64/CuisUniversity-4383.image!
+
+!AccountTransaction methodsFor: 'private' stamp: 'GR 11/9/2020 17:39:31'!
+addToBalance: aValue
+
+	self subclassResponsibility ! !
+
+!methodRemoval: AccountTransaction #addToBalanceDependingOnTransaction stamp: 'GR 11/9/2020 17:39:37'!
+addToBalanceDependingOnTransaction
+
+	self subclassResponsibility !
+!AccountTransaction methodsFor: 'private' stamp: 'GR 11/9/2020 17:39:47' prior: 50931961!
+addToBalance: aBalance
+
+	self subclassResponsibility ! !
+!ReceptiveAccount methodsFor: 'balance' stamp: 'GR 11/9/2020 17:54:50' prior: 50925559 overrides: 50931798!
+balance
+	
+	transactions inject: 0 into: [ :aBalance :aTransaction | aTransaction addToBalance: aBalance].
+	
+	"| balance |
+	
+	balance := 0.
+	
+	transactions do: [ :aTransaction | balance := aTransaction addToBalance: balance].
+	
+	^balance"! !
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 17:54:58'!
+ERROR!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:54:58'!
+ERROR!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:54:58'!
+FAILURE!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:54:58'!
+FAILURE!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:54:58'!
+FAILURE!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 17:54:58'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:56:14'!
+FAILURE!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:56:14'!
+FAILURE!
+!ReceptiveAccount methodsFor: 'balance' stamp: 'GR 11/9/2020 17:56:27' prior: 50931977 overrides: 50931798!
+balance
+	
+	^ transactions inject: 0 into: [ :aBalance :aTransaction | aTransaction addToBalance: aBalance].
+	
+	"| balance |
+	
+	balance := 0.
+	
+	transactions do: [ :aTransaction | balance := aTransaction addToBalance: balance].
+	
+	^balance"! !
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:56:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 17:56:30'!
+PASSED!
+!Portfolio methodsFor: 'balance' stamp: 'GR 11/9/2020 17:57:36' prior: 50929775 overrides: 50931798!
+balance
+	
+	bankingEntities inject: 0 into: [:totalBalance :aBankingEntity | totalBalance + aBankingEntity balance]
+	
+	"| totalBalance |
+	
+	totalBalance := 0. 
+	
+	bankingEntities do: [:aBankingEntity | totalBalance := totalBalance + aBankingEntity balance]. 
+	
+	^totalBalance."! !
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:57:41'!
+ERROR!
+!Portfolio methodsFor: 'balance' stamp: 'GR 11/9/2020 17:58:56' prior: 50932200 overrides: 50931798!
+balance
+	
+	^ bankingEntities inject: 0 into: [:totalBalance :aBankingEntity | totalBalance + aBankingEntity balance]
+	
+	"| totalBalance |
+	
+	totalBalance := 0. 
+	
+	bankingEntities do: [:aBankingEntity | totalBalance := totalBalance + aBankingEntity balance]. 
+	
+	^totalBalance."! !
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:58:57'!
+FAILURE!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:59:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 17:59:01'!
+PASSED!
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/9/2020 17:59:48' prior: 50929759 overrides: 50931812!
+transactions
+
+	bankingEntities inject: OrderedCollection new into: [:transactions :aBankingEntity | transactions addAll: aBankingEntity transactions]
+	
+	"| transactions |
+	
+	transactions := OrderedCollection new.
+	
+	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
+	
+	^ transactions."! !
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/9/2020 17:59:53' prior: 50932326 overrides: 50931812!
+transactions
+
+	^ bankingEntities inject: OrderedCollection new into: [:transactions :aBankingEntity | transactions addAll: aBankingEntity transactions]
+	
+	"| transactions |
+	
+	transactions := OrderedCollection new.
+	
+	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
+	
+	^ transactions."! !
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 17:59:56'!
+FAILURE!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 17:59:56'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 17:59:56'!
+FAILURE!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:00:05'!
+ERROR!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:01:35'!
+FAILURE!
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/7/2020 16:11:24' prior: 50932340 overrides: 50931812!
+transactions
+	
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	
+	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
+	
+	^ transactions.! !
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 18:03:03'!
+PASSED!
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/9/2020 18:05:30' prior: 50932463 overrides: 50931812!
+transactions
+
+	^ bankingEntities inject: OrderedCollection new into: [:transactions :aBankingEntity | transactions addAll: aBankingEntity transactions]
+	
+	"| transactions |
+	
+	transactions := OrderedCollection new.
+	
+	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
+	
+	^ transactions."! !
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:05:33'!
+FAILURE!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 18:05:33'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:05:33'!
+FAILURE!
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/9/2020 18:07:16' prior: 50932567 overrides: 50931812!
+transactions
+
+	"^ bankingEntities inject: OrderedCollection new into: [:transactions :aBankingEntity | transactions addAll: aBankingEntity transactions]"
+	
+	| transactions |
+	
+	transactions := OrderedCollection new.
+	
+	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
+	
+	^ transactions.! !
+!Portfolio methodsFor: 'testing' stamp: 'GR 11/9/2020 18:07:58' prior: 50929749 overrides: 50931807!
+hasRegistered: aTransaction
+	
+	^ bankingEntities inject: false into: [ :hasRegistered :aBankingEntity |  hasRegistered or: (aBankingEntity  hasRegistered: aTransaction) ]
+	
+	"| hasRegistered |
+	
+	hasRegistered := false.
+	
+	bankingEntities do: [ :aBankingEntity |  hasRegistered := hasRegistered or: (aBankingEntity  hasRegistered: aTransaction) ].
+	
+	^ hasRegistered."! !
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 18:08:03'!
+PASSED!
+!Portfolio methodsFor: 'balance' stamp: 'GR 11/9/2020 18:08:19' prior: 50932216 overrides: 50931798!
+balance
+	
+	^ bankingEntities inject: 0 into: [:totalBalance :aBankingEntity | totalBalance + aBankingEntity balance]! !
+!Portfolio methodsFor: 'testing' stamp: 'GR 11/9/2020 18:08:30' prior: 50932695 overrides: 50931807!
+hasRegistered: aTransaction
+	
+	^ bankingEntities inject: false into: [ :hasRegistered :aBankingEntity |  hasRegistered or: (aBankingEntity  hasRegistered: aTransaction) ]! !
+!Portfolio methodsFor: 'private' stamp: 'GR 11/9/2020 18:09:07' prior: 50930083 overrides: 50931769!
+seeIfAlreadyInHierarchy: bankingEntity
+	
+	^ rootPortfolios inject: false into: [ :isInTheHierarchy :aRootPortfolio | isInTheHierarchy or: (aRootPortfolio lookFor: bankingEntity)]
+	
+	"| isInTheHierarchy |
+	
+	isInTheHierarchy := false.
+	
+	rootPortfolios do: [ :aRootPortfolio | isInTheHierarchy := isInTheHierarchy or: (aRootPortfolio lookFor: bankingEntity)].
+	
+	^isInTheHierarchy"! !
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 18:09:14'!
+PASSED!
+!Portfolio methodsFor: 'private' stamp: 'GR 11/9/2020 18:09:25' prior: 50932820 overrides: 50931769!
+seeIfAlreadyInHierarchy: bankingEntity
+	
+	^ rootPortfolios inject: false into: [ :isInTheHierarchy :aRootPortfolio | isInTheHierarchy or: (aRootPortfolio lookFor: bankingEntity)]! !
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/9/2020 18:15:20' prior: 50932681 overrides: 50931812!
+transactions
+
+	^ bankingEntities inject: OrderedCollection new addingAll: [:aBankingEntity | aBankingEntity transactions].! !
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 18:15:24'!
+PASSED!
+!ProtfolioTest methodsFor: 'testing' stamp: 'GR 11/9/2020 18:23:37'!
+test17
+
+	portfolio addPortfolio: portfolio2.
+	portfolio3 addPortfolio: portfolio.
+	
+	self
+		should: [ portfolio2 addPortfolio: portfolio3 ]
+		raise: Error
+		withMessageText: Portfolio cycleHierarchyError.! !
+!ProtfolioTest methodsFor: 'testing' stamp: 'GR 11/9/2020 18:23:48'!
+test18
+
+	portfolio addPortfolio: portfolio2.
+	portfolio3 addPortfolio: portfolio.
+	
+	self
+		should: [ portfolio2 addPortfolio: portfolio3 ]
+		raise: Error
+		withMessageText: Portfolio cycleHierarchyError.! !
+
+!methodRemoval: ProtfolioTest #test17 stamp: 'GR 11/9/2020 18:23:48'!
+test17
+
+	portfolio addPortfolio: portfolio2.
+	portfolio3 addPortfolio: portfolio.
+	
+	self
+		should: [ portfolio2 addPortfolio: portfolio3 ]
+		raise: Error
+		withMessageText: Portfolio cycleHierarchyError.!
+
+!methodRemoval: ProtfolioTest #test18 stamp: 'GR 11/9/2020 18:26:52'!
+test18
+
+	portfolio addPortfolio: portfolio2.
+	portfolio3 addPortfolio: portfolio.
+	
+	self
+		should: [ portfolio2 addPortfolio: portfolio3 ]
+		raise: Error
+		withMessageText: Portfolio cycleHierarchyError.!
+
+----QUIT----(9 November 2020 18:31:05) CuisUniversity-4383.image priorSource: 19209746!
+
+----STARTUP---- (9 November 2020 18:32:01) as /home/grosinov/linux64/CuisUniversity-4383.image!
+
+!ReceptiveAccount methodsFor: 'balance' stamp: 'GR 11/9/2020 18:32:15' prior: 50932090 overrides: 50931798!
+balance
+	
+	^ transactions inject: 0 into: [ :aBalance :aTransaction | aTransaction addToBalance: aBalance].! !
+
+!methodRemoval: ReceptiveAccount #seeIfAlreadyInHierarchy: stamp: 'GR 11/9/2020 18:32:52'!
+seeIfAlreadyInHierarchy: aReceptiveAccount 
+	
+	^ self == aReceptiveAccount !
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 18:33:04'!
+PASSED!
+
+----QUIT----(9 November 2020 18:34:00) CuisUniversity-4383.image priorSource: 19245593!

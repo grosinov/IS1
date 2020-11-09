@@ -300,8 +300,8 @@ value
 	self subclassResponsibility ! !
 
 
-!AccountTransaction methodsFor: 'private' stamp: 'GR 11/2/2020 19:27:07'!
-addToBalanceDependingOnTransaction
+!AccountTransaction methodsFor: 'private' stamp: 'GR 11/9/2020 17:39:47'!
+addToBalance: aBalance
 
 	self subclassResponsibility ! !
 
@@ -473,16 +473,10 @@ addPortfolio: aPortfolio
 	aPortfolio addRootsOfParent: self! !
 
 
-!Portfolio methodsFor: 'testing' stamp: 'GR 11/7/2020 16:11:24'!
+!Portfolio methodsFor: 'testing' stamp: 'GR 11/9/2020 18:08:30'!
 hasRegistered: aTransaction
 	
-	| hasRegistered |
-	
-	hasRegistered := false.
-	
-	bankingEntities do: [ :aBankingEntity |  hasRegistered := hasRegistered or: (aBankingEntity  hasRegistered: aTransaction) ].
-	
-	^ hasRegistered.! !
+	^ bankingEntities inject: false into: [ :hasRegistered :aBankingEntity |  hasRegistered or: (aBankingEntity  hasRegistered: aTransaction) ]! !
 
 
 !Portfolio methodsFor: 'private' stamp: 'GR 11/7/2020 16:47:13'!
@@ -500,40 +494,22 @@ lookFor: bankingEntity
 		ifFound: [ :aBankingEntity | ^true ]
 		ifNone: [ ^ self == bankingEntity ]! !
 
-!Portfolio methodsFor: 'private' stamp: 'GR 11/7/2020 16:48:21'!
+!Portfolio methodsFor: 'private' stamp: 'GR 11/9/2020 18:09:25'!
 seeIfAlreadyInHierarchy: bankingEntity
 	
-	| isInTheHierarchy |
-	
-	isInTheHierarchy := false.
-	
-	rootPortfolios do: [ :aRootPortfolio | isInTheHierarchy := isInTheHierarchy or: (aRootPortfolio lookFor: bankingEntity)].
-	
-	^isInTheHierarchy! !
+	^ rootPortfolios inject: false into: [ :isInTheHierarchy :aRootPortfolio | isInTheHierarchy or: (aRootPortfolio lookFor: bankingEntity)]! !
 
 
-!Portfolio methodsFor: 'transactions' stamp: 'GR 11/7/2020 16:11:24'!
+!Portfolio methodsFor: 'transactions' stamp: 'GR 11/9/2020 18:15:20'!
 transactions
-	
-	| transactions |
-	
-	transactions := OrderedCollection new.
-	
-	bankingEntities do: [:aBankingEntity | transactions addAll: aBankingEntity transactions].
-	
-	^ transactions.! !
+
+	^ bankingEntities inject: OrderedCollection new addingAll: [:aBankingEntity | aBankingEntity transactions].! !
 
 
-!Portfolio methodsFor: 'balance' stamp: 'GR 11/7/2020 16:11:24'!
+!Portfolio methodsFor: 'balance' stamp: 'GR 11/9/2020 18:08:19'!
 balance
 	
-	| totalBalance |
-	
-	totalBalance := 0. 
-	
-	bankingEntities do: [:aBankingEntity | totalBalance := totalBalance + aBankingEntity balance]. 
-	
-	^totalBalance.! !
+	^ bankingEntities inject: 0 into: [:totalBalance :aBankingEntity | totalBalance + aBankingEntity balance]! !
 
 
 !Portfolio methodsFor: 'adding -- private' stamp: 'GR 11/9/2020 16:52:01'!
@@ -580,16 +556,10 @@ transactions
 	^ transactions copy! !
 
 
-!ReceptiveAccount methodsFor: 'balance' stamp: 'GR 11/2/2020 20:16:58'!
+!ReceptiveAccount methodsFor: 'balance' stamp: 'GR 11/9/2020 18:32:15'!
 balance
 	
-	| balance |
-	
-	balance := 0.
-	
-	transactions do: [ :aTransaction | balance := aTransaction addToBalance: balance].
-	
-	^balance! !
+	^ transactions inject: 0 into: [ :aBalance :aTransaction | aTransaction addToBalance: aBalance].! !
 
 
 !ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
@@ -608,8 +578,3 @@ addRootsOfParent: aPortfolio
 lookFor: aBankingEntity 
 	
 	^ self == aBankingEntity! !
-
-!ReceptiveAccount methodsFor: 'private' stamp: 'GR 11/7/2020 15:16:58'!
-seeIfAlreadyInHierarchy: aReceptiveAccount 
-	
-	^ self == aReceptiveAccount ! !
