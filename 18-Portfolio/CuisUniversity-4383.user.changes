@@ -21491,3 +21491,111 @@ transactions
 	self subclassResponsibility.! !
 
 ----QUIT----(8 November 2020 18:40:00) CuisUniversity-4383.image priorSource: 19202190!
+
+----STARTUP---- (9 November 2020 16:48:51) as /home/grosinov/linux64/CuisUniversity-4383.image!
+
+!Portfolio methodsFor: 'adding' stamp: 'GR 11/9/2020 16:50:36'!
+addBankingEntity: aReceptiveAccount
+
+	(self seeIfAlreadyInHierarchy: aReceptiveAccount) ifTrue: [self error: Portfolio cycleHierarchyError ].
+	
+	bankingEntities add: aReceptiveAccount! !
+!Portfolio methodsFor: 'adding' stamp: 'GR 11/9/2020 16:50:36' prior: 50930196!
+addAccount: aReceptiveAccount 
+	
+	self addBankingEntity: aReceptiveAccount ! !
+!Portfolio methodsFor: 'adding' stamp: 'GR 11/9/2020 16:50:56' prior: 50929845!
+addPortfolio: aPortfolio 
+	
+	self addBankingEntity: aPortfolio.
+	
+	aPortfolio addRootsOfParent: self! !
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test01PortfolioStartsWithBalanceCero stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test02BalanceWithAnAccount stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test03BalanceWithAnAccountAndAPortfolio stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test04TransactionsOfEmptyPortfolioReturnsNoTransactions stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test05TransactionsOfPortfolioWithAnAccountReturnsTransactionsOfThatAccount stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test06TransactionsOfPortfolioWithAnAccountAndAPortfolioReturnsEveryTransaction stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test07EmptyPortfolioHasNotARegisteredTransaction stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test08PortfolioWithAccountHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test09PortfolioWithAccountAndAPortfolioHasARegisteredTransactionInAnyAccount stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test10CanNotAddAPortfolioToItself stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test11CanNotAddAPortfolioThatAlreadyExistsInThePortfolio stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test12CanNotAddToPortfolioAnyOfItsParents stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test13CanNotAddToPortfolioAnAlreadyGrandchildPortfolio stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test14CanNotAddToPortfolioAnAlreadyGrandparentPortfolio stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test15CanNotAddToPortfolioAPortfolioInAnotherBranch stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test16CanNotAddToPortfolioAPortfolioThatContainsIt stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ProtfolioTest #test17CanNotAddAnAccountToPortfolioThatAlreadyExistsInTheHierarchy stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'GR 11/9/2020 16:51:00'!
+PASSED!
+!Portfolio methodsFor: 'adding -- private' stamp: 'GR 11/9/2020 16:51:54' prior: 50931822!
+addBankingEntity: aBankingEntity
+
+	(self seeIfAlreadyInHierarchy: aBankingEntity) ifTrue: [self error: Portfolio cycleHierarchyError ].
+	
+	bankingEntities add: aBankingEntity! !
+!Portfolio methodsFor: 'adding -- private' stamp: 'GR 11/9/2020 16:52:01' prior: 50931938!
+addBankingEntity: aBankingEntity
+
+	(self seeIfAlreadyInHierarchy: aBankingEntity) ifTrue: [self error: self class cycleHierarchyError ].
+	
+	bankingEntities add: aBankingEntity! !
+
+----QUIT----(9 November 2020 16:52:26) CuisUniversity-4383.image priorSource: 19205294!
