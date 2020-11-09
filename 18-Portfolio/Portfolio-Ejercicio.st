@@ -460,19 +460,15 @@ initialize
 	rootPortfolios  := Set with: self.! !
 
 
-!Portfolio methodsFor: 'adding' stamp: 'GR 11/7/2020 16:54:31'!
+!Portfolio methodsFor: 'adding' stamp: 'GR 11/9/2020 16:50:36'!
 addAccount: aReceptiveAccount 
 	
-	(self seeIfAlreadyInHierarchy: aReceptiveAccount) ifTrue: [self error: Portfolio cycleHierarchyError ].
-	
-	bankingEntities add: aReceptiveAccount ! !
+	self addBankingEntity: aReceptiveAccount ! !
 
-!Portfolio methodsFor: 'adding' stamp: 'GR 11/7/2020 16:17:26'!
+!Portfolio methodsFor: 'adding' stamp: 'GR 11/9/2020 16:50:56'!
 addPortfolio: aPortfolio 
 	
-	(self seeIfAlreadyInHierarchy: aPortfolio) ifTrue: [ self error: self class cycleHierarchyError ].
-	
-	bankingEntities add: aPortfolio.
+	self addBankingEntity: aPortfolio.
 	
 	aPortfolio addRootsOfParent: self! !
 
@@ -538,6 +534,14 @@ balance
 	bankingEntities do: [:aBankingEntity | totalBalance := totalBalance + aBankingEntity balance]. 
 	
 	^totalBalance.! !
+
+
+!Portfolio methodsFor: 'adding -- private' stamp: 'GR 11/9/2020 16:52:01'!
+addBankingEntity: aBankingEntity
+
+	(self seeIfAlreadyInHierarchy: aBankingEntity) ifTrue: [self error: self class cycleHierarchyError ].
+	
+	bankingEntities add: aBankingEntity! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
