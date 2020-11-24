@@ -34526,3 +34526,1962 @@ PASSED!
 1.5 printString!
 
 ----QUIT----(22 November 2020 18:40:59) CuisUniversity-4384.image priorSource: 17509555!
+
+----STARTUP---- (22 November 2020 18:41:32) as /home/grosinov/linux64/CuisUniversity-4384.image!
+
+
+----QUIT----(22 November 2020 18:43:42) CuisUniversity-4384.image priorSource: 17556081!
+
+----STARTUP---- (24 November 2020 13:44:32) as /home/grosinov/linux64/CuisUniversity-4384.image!
+
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 13:44:52' prior: 50879898!
+validateCreditCard: aCreditCard
+
+	((aCreditCard number numberOfDigitsInBase: 10) = 16 and: aCreditCard number >= 0) ifFalse: [ self error: self class invalidCreditCard ].
+	
+	(aCreditCard expirationDate < GregorianMonthOfYear current) ifTrue: [ self error: self class invalidCreditCard ].
+	
+	(aCreditCard owner = '' ) ifTrue: [ self error: self class invalidCreditCard ]! !
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithCardNumberThatHasNot16Digits stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test08CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test09CheckoutPaymentHasNoMoreThanTwoDecimals stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!testRun: #CajeroTest #test10CanNotBuyForAPriceOfMoreThan15Digits stamp: 'GR 11/24/2020 13:44:54'!
+PASSED!
+
+!methodRemoval: CajeroTest #test04CanNotCheckOutWithCardNumberThatHasNot16Digits stamp: 'GR 11/24/2020 14:27:02'!
+test04CanNotCheckOutWithCardNumberThatHasNot16Digits
+
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: 4 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	!
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 14:27:13' prior: 50880290!
+validateCreditCard: aCreditCard
+
+	(aCreditCard number >= 0) ifFalse: [ self error: self class invalidCreditCard ].
+	
+	(aCreditCard expirationDate < GregorianMonthOfYear current) ifTrue: [ self error: self class invalidCreditCard ].
+	
+	(aCreditCard owner = '' ) ifTrue: [ self error: self class invalidCreditCard ]! !
+
+!testRun: #CajeroTest #test09CheckoutPaymentHasNoMoreThanTwoDecimals stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test08CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test09CheckoutPaymentHasNoMoreThanTwoDecimals stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!testRun: #CajeroTest #test10CanNotBuyForAPriceOfMoreThan15Digits stamp: 'GR 11/24/2020 14:27:16'!
+PASSED!
+
+!methodRemoval: CajeroTest #test09CheckoutPaymentHasNoMoreThanTwoDecimals stamp: 'GR 11/24/2020 14:27:50'!
+test09CheckoutPaymentHasNoMoreThanTwoDecimals
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10.563).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 1.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self assert: 10.56 equals: (cashier checkOutCart: cart withCreditCard: creditCard)
+	
+	
+	
+	!
+
+!methodRemoval: CajeroTest #test10CanNotBuyForAPriceOfMoreThan15Digits stamp: 'GR 11/24/2020 14:27:57'!
+test10CanNotBuyForAPriceOfMoreThan15Digits
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->100000).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 100000000000.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero priceOutOfBound
+	
+	
+	
+	!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:34:23'!
+test04CanNotCheckOutWithNegativeCardNumber
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!methodRemoval: CajeroTest #test05CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:34:23'!
+test05CanNotCheckOutWithNegativeCardNumber
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:34:41'!
+test06CanNotCheckOutWithNegativeCardNumber
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!methodRemoval: CajeroTest #test04CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:34:41'!
+test04CanNotCheckOutWithNegativeCardNumber
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:34:49'!
+test04CanNotCheckOutWithExpiredCreditCard
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!methodRemoval: CajeroTest #test06CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:34:49'!
+test06CanNotCheckOutWithExpiredCreditCard
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:34:54'!
+test05CanNotCheckOutACreditCardWithNoOwner
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!methodRemoval: CajeroTest #test08CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:34:54'!
+test08CanNotCheckOutACreditCardWithNoOwner
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero new.
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	!
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 14:37:02' prior: 50880198!
+checkOutCart: aCarrito withCreditCard: aCreditCard  
+	
+	self validateCart: aCarrito.
+	
+	self validateCreditCard: aCreditCard.
+	
+	^ aCarrito listCart keys 
+			inject: 0 
+			into: [ :total :aProduct | 
+				total + (self valueOf: aProduct in: aCarrito) ].! !
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 14:39:37' prior: 50880597!
+checkOutCart: aCarrito withCreditCard: aCreditCard  
+	
+	self validateCart: aCarrito.
+	
+	self validateCreditCard: aCreditCard.
+	
+	^ aCarrito totalValue
+			! !
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:39:40'!
+ERROR!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:39:40'!
+ERROR!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 14:39:40'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:39:42'!
+ERROR!
+!Carrito methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 14:40:16'!
+totalValue
+	self shouldBeImplemented.! !
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 14:41:02' prior: 50880608!
+checkOutCart: aCarrito withCreditCard: aCreditCard  
+	
+	self validateCart: aCarrito.
+	
+	self validateCreditCard: aCreditCard.
+	
+	^ aCarrito purchaseValue
+			! !
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:41:02'!
+ERROR!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:41:02'!
+ERROR!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 14:41:02'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:41:04'!
+ERROR!
+!Carrito methodsFor: 'operations' stamp: 'GR 11/24/2020 14:41:34'!
+purchaseValue
+	self shouldBeImplemented.! !
+!Carrito methodsFor: 'operations' stamp: 'GR 11/24/2020 14:43:01' prior: 50880744!
+purchaseValue
+	
+	products keys 
+		inject: 0 
+		into: [ :total :aProduct | 
+			total + catalog at: aProduct ].! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:43:02'!
+ERROR!
+!Carrito methodsFor: 'operations' stamp: 'GR 11/24/2020 14:43:20' prior: 50880748!
+purchaseValue
+	
+	products 
+		inject: 0 
+		into: [ :total :aProduct | 
+			total + catalog at: aProduct ].! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:43:23'!
+ERROR!
+!Carrito methodsFor: 'operations' stamp: 'GR 11/24/2020 14:43:37' prior: 50880758!
+purchaseValue
+	
+	products 
+		inject: 0 
+		into: [ :total :aProduct | 
+			total + (catalog at: aProduct) ].! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:43:38'!
+ERROR!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:43:46'!
+ERROR!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:43:46'!
+ERROR!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 14:43:46'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:43:47'!
+ERROR!
+!Carrito methodsFor: 'operations' stamp: 'GR 11/24/2020 14:44:14' prior: 50880768!
+purchaseValue
+	
+	products 
+		inject: 0 
+		into: [ :total :aProduct | 
+			total + (catalog valueOf: aProduct) ].! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:45:29'!
+ERROR!
+!Catalogo methodsFor: 'accessing' stamp: 'GR 11/24/2020 14:45:38'!
+valueOf: aSymbol 
+	self shouldBeImplemented.! !
+!Catalogo methodsFor: 'accessing' stamp: 'GR 11/24/2020 14:45:52' prior: 50880848!
+valueOf: aProduct
+	
+	items at: aProduct! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:45:53'!
+ERROR!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:47:28'!
+ERROR!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:47:35'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:47:35'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:47:35'!
+ERROR!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:47:35'!
+ERROR!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:47:35'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:47:35'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:47:35'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:47:37'!
+ERROR!
+
+items at: aProduct!
+!Catalogo methodsFor: 'accessing' stamp: 'GR 11/24/2020 14:47:57' prior: 50880853!
+valueOf: aProduct
+	
+	^ items at: aProduct! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:47:58'!
+FAILURE!
+!Carrito methodsFor: 'operations' stamp: 'GR 11/24/2020 14:48:17' prior: 50880839!
+purchaseValue
+	
+	^ products 
+		inject: 0 
+		into: [ :total :aProduct | 
+			total + (catalog valueOf: aProduct) ].! !
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:48:17'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:48:22'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:48:22'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:48:22'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:48:22'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:48:22'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:48:22'!
+PASSED!
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:48:47' prior: 50877137!
+test01CanCreateNewCartWithNoProducts
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	self assert: 0 equals: carrito productAmount.! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:05' prior: 50877125!
+test02CanAddAProductToCart
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	carrito addToCart: #Libro1 withAmount: 1.
+	
+	self assert: 1 equals: carrito productAmount.
+	self assert: (carrito products includes: #Libro1)! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:10' prior: 50877113!
+test03CanAddAProductToCartMultipleTimes
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	carrito addToCart: #Libro1 withAmount: 3.
+	
+	self assert: 3 equals: carrito productAmount.
+	self assert: 3 equals: (carrito products occurrencesOf: #Libro1)! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:14' prior: 50877099!
+test04AddAProductThatIsAlreadyInTheCart
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	carrito addToCart: #Libro1 withAmount: 3.
+	carrito addToCart: #Libro1 withAmount: 1.
+	
+	self assert: 4 equals: carrito productAmount.
+	self assert: 4 equals: (carrito products occurrencesOf: #Libro1)! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:23' prior: 50876986!
+test05CanNotAddABookThatIsNotInTheCatalog
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	carrito addToCart: #Libro1 withAmount: 3.
+	
+	self
+		should: [ carrito addToCart: #Libro2 withAmount: 1. ] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError | 
+			self assert: Carrito productNotInTheCatalog = anError messageText.
+			self assert: 3 equals: carrito productAmount.
+			self assert: 0 equals: (carrito products occurrencesOf: #Libro2) ].
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:29' prior: 50877539!
+test06EmptyCartListsNoItems
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	self assert: Dictionary new equals: carrito listCart
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:35' prior: 50877572!
+test07CartCanListEveryProductInIt
+
+	| carrito list catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	carrito addToCart: #Libro1 withAmount: 3.
+	
+	list := Dictionary with: #Libro1->3.
+	
+	self assert: list equals: carrito listCart
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:41' prior: 50877658!
+test08CanNotAddNegativeAmountOfProducts
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	self 
+		should: [ carrito addToCart: #Libro1 withAmount: -2. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError 
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:46' prior: 50877691!
+test09CanNotAddCeroAmountOfProducts
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	self 
+		should: [ carrito addToCart: #Libro1 withAmount: 0. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError.
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:49:52' prior: 50877784!
+test10CanNotAddNonIntegerAmountOfProducts
+
+	| carrito catalog |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	carrito := Carrito withCatalog: catalog.
+	
+	self 
+		should: [ carrito addToCart: #Libro1 withAmount: 1.5. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError.! !
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 14:50:12'!
+PASSED!
+
+Object subclass: #Cajero
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cajero category: 'TusLibros' stamp: 'GR 11/24/2020 14:51:40'!
+Object subclass: #Cajero
+	instanceVariableNames: 'catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #MerchantProcesorSimulator category: 'TusLibros' stamp: 'GR 11/24/2020 14:55:13'!
+Object subclass: #MerchantProcesorSimulator
+	instanceVariableNames: 'validationCondition'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:54:24' prior: 50879025!
+test01CantCheckOutAnEmptyCart
+
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart := Carrito withCatalog: catalog.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+
+TestCase subclass: #CajeroTest
+	instanceVariableNames: ' cashier cart '
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:56:38' prior: 50881138!
+test01CantCheckOutAnEmptyCart
+
+	| cashier cart catalog creditCard |
+	
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart := Carrito withCatalog: catalog.
+	
+	creditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	self
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 14:57:54'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'nil' stamp: 'GR 11/24/2020 14:57:59' overrides: 16927572!
+setUp! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:58:13' prior: 50881167!
+test01CantCheckOutAnEmptyCart
+
+	| cashier cart catalog creditCard |
+	
+	self
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 14:58:54'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1 validCreditCard'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 14:58:51' prior: 50881199 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 14:59:03'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1 validCreditCard expiredCreditCard'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 14:59:01' prior: 50881221 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 14:59:28' prior: 50880519!
+test04CanNotCheckOutWithExpiredCreditCard
+	
+	| cashier cart creditCard |
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: creditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:00:00'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1 validCreditCard expiredCreditCard negativeNumberCreditCard'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:00:02' prior: 50881244 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:00:18' prior: 50881279 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:00:41'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1 validCreditCard expiredCreditCard negativeNumberCreditCard noOwnerCreditCard'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:00:40' prior: 50881298 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:00:53' prior: 50881330 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:01:09' prior: 50881202!
+test01CantCheckOutAnEmptyCart
+
+	self
+		should: [ cashier1 checkOutCart: cart1 withCreditCard: validCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:01:41' prior: 50879065!
+test02CanCheckOutCartWithOneElement
+
+	self assert: 10 equals: (cashier1 checkOutCart: cart1 withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:01:57' prior: 50879082!
+test03CanCheckOutCartWithMoreThanOneElement
+
+	self assert: 30 equals: (cashier1 checkOutCart: cart1 withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:02:09' prior: 50881258!
+test04CanNotCheckOutWithExpiredCreditCard
+	
+	self 
+		should: [ cashier1 checkOutCart: cart1 withCreditCard: expiredCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:02:23' prior: 50880558!
+test05CanNotCheckOutACreditCardWithNoOwner
+	
+	self 
+		should: [ cashier1 checkOutCart: cart1 withCreditCard: noOwnerCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:02:33' prior: 50880479!
+test06CanNotCheckOutWithNegativeCardNumber
+	
+	self 
+		should: [ cashier1 checkOutCart: cart1 withCreditCard: negativeNumberCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:02:57'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart1 catalog1 validCreditCard expiredCreditCard negativeNumberCreditCard noOwnerCreditCard emptyCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:02:56' prior: 50881353 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	emptyCart := Carrito withCatalog: catalog1.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:03:28' prior: 50881442 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	emptyCart := Carrito withCatalog: catalog1.
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	cart1 addToCart: #Libro1 withAmount: 3.
+	
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:08' prior: 50881468 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:04:25' prior: 50881377!
+test01CantCheckOutAnEmptyCart
+	
+	cart1 := Carrito withCatalog: catalog1.
+	
+	self
+		should: [ cashier1 checkOutCart: cart1 withCreditCard: validCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:04:29'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart catalog1 validCreditCard expiredCreditCard negativeNumberCreditCard noOwnerCreditCard emptyCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:29' prior: 50881393!
+test03CanCheckOutCartWithMoreThanOneElement
+
+	self assert: 30 equals: (cashier1 checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:29' prior: 50881420!
+test06CanNotCheckOutWithNegativeCardNumber
+	
+	self 
+		should: [ cashier1 checkOutCart: cart withCreditCard: negativeNumberCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:29' prior: 50881519!
+test01CantCheckOutAnEmptyCart
+	
+	cart := Carrito withCatalog: catalog1.
+	
+	self
+		should: [ cashier1 checkOutCart: cart withCreditCard: validCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:29' prior: 50881386!
+test02CanCheckOutCartWithOneElement
+
+	self assert: 10 equals: (cashier1 checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:29' prior: 50881400!
+test04CanNotCheckOutWithExpiredCreditCard
+	
+	self 
+		should: [ cashier1 checkOutCart: cart withCreditCard: expiredCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:29' prior: 50881410!
+test05CanNotCheckOutACreditCardWithNoOwner
+	
+	self 
+		should: [ cashier1 checkOutCart: cart withCreditCard: noOwnerCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:04:39'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier1 cashier2 cart catalog validCreditCard expiredCreditCard negativeNumberCreditCard noOwnerCreditCard emptyCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:39' prior: 50881496 overrides: 16927572!
+setUp
+
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier1 := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:04:39' prior: 50881559!
+test01CantCheckOutAnEmptyCart
+	
+	cart := Carrito withCatalog: catalog.
+	
+	self
+		should: [ cashier1 checkOutCart: cart withCreditCard: validCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:05:09'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier cashier2 cart catalog validCreditCard expiredCreditCard negativeNumberCreditCard noOwnerCreditCard emptyCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881632!
+test01CantCheckOutAnEmptyCart
+	
+	cart := Carrito withCatalog: catalog.
+	
+	self
+		should: [ cashier checkOutCart: cart withCreditCard: validCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881577!
+test04CanNotCheckOutWithExpiredCreditCard
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: expiredCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881570!
+test02CanCheckOutCartWithOneElement
+
+	self assert: 10 equals: (cashier checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881608 overrides: 16927572!
+setUp
+
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881540!
+test03CanCheckOutCartWithMoreThanOneElement
+
+	self assert: 30 equals: (cashier checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881587!
+test05CanNotCheckOutACreditCardWithNoOwner
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: noOwnerCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:05:09' prior: 50881548!
+test06CanNotCheckOutWithNegativeCardNumber
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: negativeNumberCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:05:41' prior: 50881674!
+test02CanCheckOutCartWithOneElement
+
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 1.
+
+	self assert: 10 equals: (cashier checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:05:50' prior: 50881705!
+test03CanCheckOutCartWithMoreThanOneElement
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	self assert: 30 equals: (cashier checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:06:12' prior: 50881743!
+test03CanCheckOutCartWithMoreThanOneElement
+	
+	self assert: 30 equals: (cashier checkOutCart: cart withCreditCard: validCreditCard)! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:06:19' prior: 50881682 overrides: 16927572!
+setUp
+
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+
+	validCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!MerchantProcesorSimulator class methodsFor: 'instance creation' stamp: 'GR 11/24/2020 15:07:31'!
+with: aBlockClosure 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: aBlockClosure ! !
+!MerchantProcesorSimulator class methodsFor: 'instance creation' stamp: 'GR 11/24/2020 15:07:49' prior: 50881787!
+with: aValidationCondition 
+	
+	^self new initializeWith: aValidationCondition ! !
+!MerchantProcesorSimulator methodsFor: 'initialization' stamp: 'GR 11/24/2020 15:07:58'!
+initializeWith: aValidationCondition 
+	self shouldBeImplemented.
+	validationCondition := aValidationCondition.! !
+!MerchantProcesorSimulator methodsFor: 'initialization' stamp: 'GR 11/24/2020 15:08:01' prior: 50881802!
+initializeWith: aValidationCondition 
+	
+	validationCondition := aValidationCondition.! !
+!Cajero class methodsFor: 'instance creation' stamp: 'GR 11/24/2020 15:08:13'!
+with: aMerchantProcesorSimulator 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: aMerchantProcesorSimulator ! !
+!Cajero class methodsFor: 'instance creation' stamp: 'GR 11/24/2020 15:08:21' prior: 50881815!
+with: aMerchantProcesor
+	
+	^self new initializeWith: aMerchantProcesor! !
+
+!classDefinition: #Cajero category: 'TusLibros' stamp: 'GR 11/24/2020 15:08:29'!
+Object subclass: #Cajero
+	instanceVariableNames: 'catalog merchantProcesor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cajero methodsFor: 'initialization' stamp: 'GR 11/24/2020 15:08:29'!
+initializeWith: aMerchantProcesor 
+	self shouldBeImplemented.
+	merchantProcesor := aMerchantProcesor.! !
+!Cajero methodsFor: 'initialization' stamp: 'GR 11/24/2020 15:08:32' prior: 50881836!
+initializeWith: aMerchantProcesor 
+	
+	merchantProcesor := aMerchantProcesor.! !
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 15:08:33'!
+PASSED!
+!CajeroTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:13:03'!
+test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | false ]).
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: validCreditCard ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+
+!classDefinition: #CajeroTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:13:16'!
+TestCase subclass: #CajeroTest
+	instanceVariableNames: 'cashier cashier2 cart catalog cashierValidatedCreditCard expiredCreditCard negativeNumberCreditCard noOwnerCreditCard emptyCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:13:16' prior: 50881761 overrides: 16927572!
+setUp
+
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | true]).
+	
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 3.
+
+	cashierValidatedCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	expiredCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2012 withOwner: 'Matias Morales'.
+	
+	negativeNumberCreditCard := TarjetaDeCredito number: -4659540000978462 withExpiration: August, 2021 withOwner: 'Matias Morales'.
+	
+	noOwnerCreditCard := TarjetaDeCredito number: 4659540000978462 withExpiration: August, 2021 withOwner: ''.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:13:16' prior: 50881653!
+test01CantCheckOutAnEmptyCart
+	
+	cart := Carrito withCatalog: catalog.
+	
+	self
+		should: [ cashier checkOutCart: cart withCreditCard: cashierValidatedCreditCard ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero emptyCartError.! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:13:16' prior: 50881753!
+test03CanCheckOutCartWithMoreThanOneElement
+	
+	self assert: 30 equals: (cashier checkOutCart: cart withCreditCard: cashierValidatedCreditCard)! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:13:16' prior: 50881906!
+test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard
+	
+	cashier := Cajero with: (MerchantProcesorSimulator with: [ :aCreditCard | false ]).
+	
+	self 
+		should: [ cashier checkOutCart: cart withCreditCard: cashierValidatedCreditCard ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cajero invalidCreditCard.
+	
+	
+	
+	! !
+!CajeroTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:13:16' prior: 50881733!
+test02CanCheckOutCartWithOneElement
+
+	cart := Carrito withCatalog: catalog.
+	
+	cart addToCart: #Libro1 withAmount: 1.
+
+	self assert: 10 equals: (cashier checkOutCart: cart withCreditCard: cashierValidatedCreditCard)! !
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:13:19'!
+FAILURE!
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 15:18:15' prior: 50880678!
+checkOutCart: aCarrito withCreditCard: aCreditCard  
+	
+	| totalPrice |
+	
+	self validateCart: aCarrito.
+	
+	self validateCreditCard: aCreditCard.
+	
+	totalPrice := aCarrito purchaseValue.
+	
+	merchantProcesor processPurchase: totalPrice withCreditCard: aCreditCard.
+	
+	^ totalPrice
+			! !
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:18:22'!
+ERROR!
+!MerchantProcesorSimulator methodsFor: 'operations' stamp: 'GR 11/24/2020 15:18:34'!
+processPurchase: aSmallInteger withCreditCard: aTarjetaDeCredito 
+	self shouldBeImplemented.! !
+!MerchantProcesorSimulator methodsFor: 'operations' stamp: 'GR 11/24/2020 15:24:06' prior: 50882020!
+processPurchase: aTotalPrice withCreditCard: aCreditCard
+	
+	^ validationCondition value: aCreditCard! !
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:24:07'!
+FAILURE!
+!Cajero methodsFor: 'operations' stamp: 'GR 11/24/2020 15:24:47' prior: 50882004!
+checkOutCart: aCarrito withCreditCard: aCreditCard  
+	
+	| totalPrice |
+	
+	self validateCart: aCarrito.
+	
+	self validateCreditCard: aCreditCard.
+	
+	totalPrice := aCarrito purchaseValue.
+	
+	( merchantProcesor processPurchase: totalPrice withCreditCard: aCreditCard ) ifFalse: [ self error: self class invalidCreditCard ].
+	
+	^ totalPrice
+			! !
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:25:06'!
+PASSED!
+
+----SNAPSHOT----(24 November 2020 15:26:58) CuisUniversity-4384.image priorSource: 17556270!
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:27:30' prior: 50880927!
+test01CanCreateNewCartWithNoProducts
+
+	| carrito catalog |
+	
+	self assert: 0 equals: carrito productAmount.! !
+
+TestCase subclass: #CarritoTest
+	instanceVariableNames: 'cart1 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CarritoTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:27:44'!
+TestCase subclass: #CarritoTest
+	instanceVariableNames: 'cart1 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CarritoTest methodsFor: 'nil' stamp: 'GR 11/24/2020 15:27:57' overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cart1 := Carrito withCatalog: catalog1.! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:28:04' prior: 50882081!
+test01CanCreateNewCartWithNoProducts
+
+	self assert: 0 equals: cart1 productAmount.! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:28:23' prior: 50880937!
+test02CanAddAProductToCart
+
+	cart1 addToCart: #Libro1 withAmount: 1.
+	
+	self assert: 1 equals: cart1 productAmount.
+	self assert: (cart1 products includes: #Libro1)! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:28:39' prior: 50880949!
+test03CanAddAProductToCartMultipleTimes
+
+	cart1 addToCart: #Libro1 withAmount: 3.
+	
+	self assert: 3 equals: cart1 productAmount.
+	self assert: 3 equals: (cart1 products occurrencesOf: #Libro1)! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:28:50' prior: 50880962!
+test04AddAProductThatIsAlreadyInTheCart
+
+	cart1 addToCart: #Libro1 withAmount: 3.
+	cart1 addToCart: #Libro1 withAmount: 1.
+	
+	self assert: 4 equals: cart1 productAmount.
+	self assert: 4 equals: (cart1 products occurrencesOf: #Libro1)! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:29:02' prior: 50880977!
+test05CanNotAddABookThatIsNotInTheCatalog
+
+	cart1 addToCart: #Libro1 withAmount: 3.
+	
+	self
+		should: [ cart1 addToCart: #Libro2 withAmount: 1. ] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError | 
+			self assert: Carrito productNotInTheCatalog = anError messageText.
+			self assert: 3 equals: cart1 productAmount.
+			self assert: 0 equals: (cart1 products occurrencesOf: #Libro2) ].
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:29:16' prior: 50880997!
+test06EmptyCartListsNoItems
+
+	self assert: Dictionary new equals: cart1 listCart
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:29:33' prior: 50881007!
+test07CartCanListEveryProductInIt
+
+	| list |
+	
+	cart1 addToCart: #Libro1 withAmount: 3.
+	
+	list := Dictionary with: #Libro1->3.
+	
+	self assert: list equals: cart1 listCart
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:29:41' prior: 50881020!
+test08CanNotAddNegativeAmountOfProducts
+
+	self 
+		should: [ cart1 addToCart: #Libro1 withAmount: -2. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError 
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:29:50' prior: 50881034!
+test09CanNotAddCeroAmountOfProducts
+
+	self 
+		should: [ cart1 addToCart: #Libro1 withAmount: 0. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError.
+	
+	
+	! !
+!CarritoTest methodsFor: 'tests' stamp: 'GR 11/24/2020 15:29:57' prior: 50881047!
+test10CanNotAddNonIntegerAmountOfProducts
+
+	self 
+		should: [ cart1 addToCart: #Libro1 withAmount: 1.5. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError.! !
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 15:29:59'!
+PASSED!
+
+!classDefinition: #CarritoTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:30:05'!
+TestCase subclass: #CarritoTest
+	instanceVariableNames: 'cart catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882106!
+test01CanCreateNewCartWithNoProducts
+
+	self assert: 0 equals: cart productAmount.! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882099 overrides: 16927572!
+setUp
+
+	catalog1 := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cart := Carrito withCatalog: catalog1.! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882155!
+test06EmptyCartListsNoItems
+
+	self assert: Dictionary new equals: cart listCart
+	
+	
+	! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882120!
+test03CanAddAProductToCartMultipleTimes
+
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	self assert: 3 equals: cart productAmount.
+	self assert: 3 equals: (cart products occurrencesOf: #Libro1)! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882180!
+test09CanNotAddCeroAmountOfProducts
+
+	self 
+		should: [ cart addToCart: #Libro1 withAmount: 0. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError.
+	
+	
+	! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882129!
+test04AddAProductThatIsAlreadyInTheCart
+
+	cart addToCart: #Libro1 withAmount: 3.
+	cart addToCart: #Libro1 withAmount: 1.
+	
+	self assert: 4 equals: cart productAmount.
+	self assert: 4 equals: (cart products occurrencesOf: #Libro1)! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882170!
+test08CanNotAddNegativeAmountOfProducts
+
+	self 
+		should: [ cart addToCart: #Libro1 withAmount: -2. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError 
+	
+	
+	! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882161!
+test07CartCanListEveryProductInIt
+
+	| list |
+	
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	list := Dictionary with: #Libro1->3.
+	
+	self assert: list equals: cart listCart
+	
+	
+	! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882112!
+test02CanAddAProductToCart
+
+	cart addToCart: #Libro1 withAmount: 1.
+	
+	self assert: 1 equals: cart productAmount.
+	self assert: (cart products includes: #Libro1)! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882139!
+test05CanNotAddABookThatIsNotInTheCatalog
+
+	cart addToCart: #Libro1 withAmount: 3.
+	
+	self
+		should: [ cart addToCart: #Libro2 withAmount: 1. ] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError | 
+			self assert: Carrito productNotInTheCatalog = anError messageText.
+			self assert: 3 equals: cart productAmount.
+			self assert: 0 equals: (cart products occurrencesOf: #Libro2) ].
+	
+	
+	! !
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:05' prior: 50882189!
+test10CanNotAddNonIntegerAmountOfProducts
+
+	self 
+		should: [ cart addToCart: #Libro1 withAmount: 1.5. ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Carrito invalidAmountOfProductsError.! !
+
+!classDefinition: #CarritoTest category: 'TusLibros' stamp: 'GR 11/24/2020 15:30:26'!
+TestCase subclass: #CarritoTest
+	instanceVariableNames: 'cart catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CarritoTest methodsFor: 'as yet unclassified' stamp: 'GR 11/24/2020 15:30:26' prior: 50882276 overrides: 16927572!
+setUp
+
+	catalog := Catalogo with: (Dictionary with: #Libro1->10).
+	
+	cart := Carrito withCatalog: catalog.! !
+
+!testRun: #CajeroTest #test01CantCheckOutAnEmptyCart stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CajeroTest #test02CanCheckOutCartWithOneElement stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CajeroTest #test03CanCheckOutCartWithMoreThanOneElement stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CajeroTest #test04CanNotCheckOutWithExpiredCreditCard stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CajeroTest #test05CanNotCheckOutACreditCardWithNoOwner stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CajeroTest #test06CanNotCheckOutWithNegativeCardNumber stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CajeroTest #test07CanNotCheckoutIfMerchantProcessorDoesNotValidateCreditCard stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test01CanCreateNewCartWithNoProducts stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test02CanAddAProductToCart stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test03CanAddAProductToCartMultipleTimes stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test04AddAProductThatIsAlreadyInTheCart stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test05CanNotAddABookThatIsNotInTheCatalog stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test06EmptyCartListsNoItems stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test07CartCanListEveryProductInIt stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test08CanNotAddNegativeAmountOfProducts stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test09CanNotAddCeroAmountOfProducts stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CarritoTest #test10CanNotAddNonIntegerAmountOfProducts stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!testRun: #CatalogoTest #test01CanNotCreateACatalogWithInvalidPriceOfAnyProduct stamp: 'GR 11/24/2020 15:30:39'!
+PASSED!
+
+!methodRemoval: Cajero #valueOf:in: stamp: 'GR 11/24/2020 15:35:21'!
+valueOf: aProduct in: aCarrito
+
+	^ (aCarrito catalog priceOf: aProduct)* aCarrito listCart at: aProduct!
+
+!methodRemoval: Cajero #twoDecimalsTrimed: stamp: 'GR 11/24/2020 15:35:26'!
+twoDecimalsTrimed: aTotalPayment
+	
+	^ (aTotalPayment *100) truncated /100 asFloat!
+
+----QUIT----(24 November 2020 15:37:43) CuisUniversity-4384.image priorSource: 17613678!
+
+----STARTUP---- (24 November 2020 15:38:15) as /home/grosinov/linux64/CuisUniversity-4384.image!
+
+
+----QUIT----(24 November 2020 15:38:24) CuisUniversity-4384.image priorSource: 17625838!
