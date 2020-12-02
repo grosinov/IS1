@@ -299,23 +299,23 @@ test06CanNotAddProductsToInvalidCart
 	
 	! !
 
-!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/1/2020 17:25:55'!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:39:34'!
 test07CanListAnEmptyCart
 
 	interface createCartWithUser: 'Crocken321' andPassword: 'lacontraseniamasseguradetodas'.
 	
-	self assert: Dictionary new equals: (interface listCart: '1')
+	self assert: Bag new equals: (interface listCart: '1')
 	
 	! !
 
-!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/1/2020 17:25:50'!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:40:08'!
 test08CanListCartWithValidID
 
 	interface createCartWithUser: 'Crocken321' andPassword: 'lacontraseniamasseguradetodas'.
 	
 	interface addToCart: '1' theProduct: testObjectsFactory itemSellByTheStore withAmount: 10.
 	
-	self assert: (Dictionary with: testObjectsFactory itemSellByTheStore->10 ) equals: (interface listCart: '1')
+	self assert: testObjectsFactory bagWithElements equals: (interface listCart: '1')
 	
 	! !
 
@@ -427,20 +427,20 @@ test16CheckOutDeletesTheCart
 	
 	self deny: (interface isDefinedTheID: '1').! !
 
-!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/1/2020 16:21:47'!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:31:38'!
 test17CanNotListPurchasesOfInvalidUsername
 
 	self
-		should: [ interface listPurchases: 'Ete Sech' withPassword: 'hola123' ] 
+		should: [ interface listPurchasesOfUser: 'Ete Sech' withPassword: 'hola123' ] 
 		raise: Error - MessageNotUnderstood 
 		withMessageText: RESTInterface invalidUserError.! !
 
-!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/1/2020 16:56:01'!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:31:38'!
 test18CanListPurchasesOfUserWithNoSales
 	
-	self assert: (OrderedCollection with: Bag new with: 0) equals: (interface listPurchases: 'Crocken321' withPassword: 'lacontraseniamasseguradetodas').! !
+	self assert: (OrderedCollection with: Bag new with: 0) equals: (interface listPurchasesOfUser: 'Crocken321' withPassword: 'lacontraseniamasseguradetodas').! !
 
-!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/1/2020 17:16:45'!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:31:38'!
 test19CanListPurchasesOfUserWithSales
 	
 	interface createCartWithUser: 'Crocken321' andPassword: 'lacontraseniamasseguradetodas'.
@@ -451,7 +451,7 @@ test19CanListPurchasesOfUserWithSales
 	
 	self 
 		assert: (OrderedCollection with: testObjectsFactory bagWithElements with: testObjectsFactory itemSellByTheStorePrice * 10 ) 
-		equals: (interface listPurchases: 'Crocken321' withPassword: 'lacontraseniamasseguradetodas').! !
+		equals: (interface listPurchasesOfUser: 'Crocken321' withPassword: 'lacontraseniamasseguradetodas').! !
 
 
 !RESTInterfaceTest methodsFor: 'clock' stamp: 'GR 11/30/2020 20:48:07'!
@@ -599,9 +599,9 @@ createSale
 	^ Sale of: total withID: saleID withItems: cart listCart
 ! !
 
-!Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:06'!
+!Cashier methodsFor: 'checkout - private' stamp: 'GR 12/2/2020 15:19:46'!
 debitTotal
-
+	
 	merchantProcessor debit: total from: creditCard.
 	! !
 
@@ -731,7 +731,7 @@ now
 
 !classDefinition: #CreditCard category: 'TusLibros'!
 Object subclass: #CreditCard
-	instanceVariableNames: 'expiration'
+	instanceVariableNames: 'expiration number owner'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -742,10 +742,12 @@ isExpiredOn: aDate
 	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber) start ! !
 
 
-!CreditCard methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:38'!
-initializeExpiringOn: aMonth 
+!CreditCard methodsFor: 'initialization' stamp: 'GR 12/2/2020 14:58:26'!
+initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO  
 	
-	expiration := aMonth ! !
+	number := aCCN.
+	expiration := aMonth.
+	owner := aCCO. ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -753,10 +755,18 @@ initializeExpiringOn: aMonth
 CreditCard class
 	instanceVariableNames: ''!
 
-!CreditCard class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 18:38'!
-expiringOn: aMonth 
+!CreditCard class methodsFor: 'instance creation' stamp: 'GR 12/2/2020 14:59:54'!
+withNumber: aCCN expiringOn: aMonth withOwner: aCCO 
+
+	(aCCO = '') ifTrue: [ self error: self invalidCreditCardErrorDescription ].
 	
-	^self new initializeExpiringOn: aMonth! !
+	^self new initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO! !
+
+
+!CreditCard class methodsFor: 'error handling' stamp: 'GR 12/2/2020 14:59:54'!
+invalidCreditCardErrorDescription
+
+	^ 'Invalid credit card'! !
 
 
 !classDefinition: #RESTInterface category: 'TusLibros'!
@@ -800,7 +810,7 @@ addToCart: aCartID theProduct: aProduct withAmount: aProductAmount
 	
 	(self cartWithID: aCartID) add: aProductAmount of: aProduct.! !
 
-!RESTInterface methodsFor: 'operations' stamp: 'GR 12/1/2020 16:59:50'!
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 14:55:33'!
 checkout: aCartID withCCN: aCCN withCCED: aCCED withCCO: aCCO 
 	
 	| creditCard cashier cart saleID |
@@ -811,7 +821,7 @@ checkout: aCartID withCCN: aCCN withCCED: aCCED withCCO: aCCO
 	
 	cart := self cartWithID: aCartID.
 	
-	creditCard := CreditCard expiringOn: aCCED.
+	creditCard := CreditCard withNumber: aCCN expiringOn: aCCED withOwner: aCCO.
 	
 	cashier := Cashier 
 			toCheckout: cart
@@ -841,7 +851,7 @@ createCartWithUser: aUsername andPassword: aPassword
 	
 	^ ID! !
 
-!RESTInterface methodsFor: 'operations' stamp: 'GR 12/1/2020 17:08:14'!
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 15:39:24'!
 listCart: aCartID 
 	
 	| cart |
@@ -852,10 +862,10 @@ listCart: aCartID
 	
 	cart := self cartWithID: aCartID.
 	
-	^ cart listCart contents.! !
+	^ cart listCart.! !
 
-!RESTInterface methodsFor: 'operations' stamp: 'GR 12/1/2020 17:30:18'!
-listPurchases: aUsername withPassword: aPassword
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 15:31:38'!
+listPurchasesOfUser: aUsername withPassword: aPassword
 
 	| purchases total |
 	
@@ -1015,15 +1025,15 @@ defaultCatalog
 		yourself ! !
 
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:37'!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'GR 12/2/2020 14:55:48'!
 expiredCreditCard
 	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+	^CreditCard withNumber: '4852536874523584' expiringOn: (Month month: today monthIndex year: today yearNumber - 1) withOwner: 'Matias Morales'! !
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:36'!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'GR 12/2/2020 14:55:52'!
 notExpiredCreditCard
 	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+	^CreditCard withNumber: '4852536874523584' expiringOn: (Month month: today monthIndex year: today yearNumber + 1) withOwner: 'Matias Morales'! !
 
 
 !StoreTestObjectsFactory methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:37'!

@@ -43100,3 +43100,468 @@ listPurchases: aUsername withPassword: aPassword
 
 
 ----QUIT----(1 December 2020 17:32:23) CuisUniversity-4384.image priorSource: 17900239!
+
+----STARTUP---- (2 December 2020 14:49:15) as /home/grosinov/linux64/CuisUniversity-4384.image!
+
+!CreditCard class methodsFor: 'instance creation' stamp: 'GR 12/2/2020 14:54:34'!
+withNumber: aName expiringOn: aMonth 
+	
+	^self new initializeExpiringOn: aMonth! !
+!StoreTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:54:34' prior: 50883492!
+notExpiredCreditCard
+	
+	^CreditCard withNumber: 'Matias Morales' expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+!RESTInterface methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:54:34' prior: 50890341!
+checkout: aCartID withCCN: aCCN withCCED: aCCED withCCO: aCCO 
+	
+	| creditCard cashier cart saleID |
+	
+	(carts includesKey: aCartID) ifFalse: [ self error: self class invalidCartError ].
+	
+	self checkIfCartTimeExceeded: aCartID.
+	
+	cart := self cartWithID: aCartID.
+	
+	creditCard := CreditCard withNumber: 'Matias Morales' expiringOn: aCCED.
+	
+	cashier := Cashier 
+			toCheckout: cart
+			charging: creditCard 
+			throught: merchantProcessor 
+			on: clock now
+			registeringOn: (self salesOfUserWithTheCart: aCartID).
+	
+	saleID := self getNextID.
+	
+	cashier checkOutWithID: saleID.
+	
+	carts removeKey: aCartID.
+	
+	^ cashier saleID.! !
+!StoreTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:54:34' prior: 50883499!
+expiredCreditCard
+	
+	^CreditCard withNumber: 'Matias Morales' expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+
+!methodRemoval: CreditCard class #expiringOn: stamp: 'GR 12/2/2020 14:54:34'!
+expiringOn: aMonth 
+	
+	^self new initializeExpiringOn: aMonth!
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 14:54:46' prior: 50891059!
+checkout: aCartID withCCN: aCCN withCCED: aCCED withCCO: aCCO 
+	
+	| creditCard cashier cart saleID |
+	
+	(carts includesKey: aCartID) ifFalse: [ self error: self class invalidCartError ].
+	
+	self checkIfCartTimeExceeded: aCartID.
+	
+	cart := self cartWithID: aCartID.
+	
+	creditCard := CreditCard withNumber: aCCN expiringOn: aCCED.
+	
+	cashier := Cashier 
+			toCheckout: cart
+			charging: creditCard 
+			throught: merchantProcessor 
+			on: clock now
+			registeringOn: (self salesOfUserWithTheCart: aCartID).
+	
+	saleID := self getNextID.
+	
+	cashier checkOutWithID: saleID.
+	
+	carts removeKey: aCartID.
+	
+	^ cashier saleID.! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'GR 12/2/2020 14:55:22'!
+withNumber: aName expiringOn: aMonth withOwner: anOwner  
+	
+	^self new initializeExpiringOn: aMonth! !
+!RESTInterface methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:55:22' prior: 50891095!
+checkout: aCartID withCCN: aCCN withCCED: aCCED withCCO: aCCO 
+	
+	| creditCard cashier cart saleID |
+	
+	(carts includesKey: aCartID) ifFalse: [ self error: self class invalidCartError ].
+	
+	self checkIfCartTimeExceeded: aCartID.
+	
+	cart := self cartWithID: aCartID.
+	
+	creditCard := CreditCard withNumber: aCCN expiringOn: aCCED withOwner: 'Matias Morales'.
+	
+	cashier := Cashier 
+			toCheckout: cart
+			charging: creditCard 
+			throught: merchantProcessor 
+			on: clock now
+			registeringOn: (self salesOfUserWithTheCart: aCartID).
+	
+	saleID := self getNextID.
+	
+	cashier checkOutWithID: saleID.
+	
+	carts removeKey: aCartID.
+	
+	^ cashier saleID.! !
+!StoreTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:55:22' prior: 50891083!
+expiredCreditCard
+	
+	^CreditCard withNumber: 'Matias Morales' expiringOn: (Month month: today monthIndex year: today yearNumber - 1) withOwner: 'Matias Morales'! !
+!StoreTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:55:22' prior: 50891051!
+notExpiredCreditCard
+	
+	^CreditCard withNumber: 'Matias Morales' expiringOn: (Month month: today monthIndex year: today yearNumber + 1) withOwner: 'Matias Morales'! !
+
+!methodRemoval: CreditCard class #withNumber:expiringOn: stamp: 'GR 12/2/2020 14:55:22'!
+withNumber: aName expiringOn: aMonth 
+	
+	^self new initializeExpiringOn: aMonth!
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 14:55:33' prior: 50891124!
+checkout: aCartID withCCN: aCCN withCCED: aCCED withCCO: aCCO 
+	
+	| creditCard cashier cart saleID |
+	
+	(carts includesKey: aCartID) ifFalse: [ self error: self class invalidCartError ].
+	
+	self checkIfCartTimeExceeded: aCartID.
+	
+	cart := self cartWithID: aCartID.
+	
+	creditCard := CreditCard withNumber: aCCN expiringOn: aCCED withOwner: aCCO.
+	
+	cashier := Cashier 
+			toCheckout: cart
+			charging: creditCard 
+			throught: merchantProcessor 
+			on: clock now
+			registeringOn: (self salesOfUserWithTheCart: aCartID).
+	
+	saleID := self getNextID.
+	
+	cashier checkOutWithID: saleID.
+	
+	carts removeKey: aCartID.
+	
+	^ cashier saleID.! !
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'GR 12/2/2020 14:55:48' prior: 50891148!
+expiredCreditCard
+	
+	^CreditCard withNumber: '4852536874523584' expiringOn: (Month month: today monthIndex year: today yearNumber - 1) withOwner: 'Matias Morales'! !
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'GR 12/2/2020 14:55:52' prior: 50891157!
+notExpiredCreditCard
+	
+	^CreditCard withNumber: '4852536874523584' expiringOn: (Month month: today monthIndex year: today yearNumber + 1) withOwner: 'Matias Morales'! !
+!CreditCard methodsFor: 'initialization' stamp: 'GR 12/2/2020 14:56:06' prior: 50883405!
+initializeExpiringOn: aMonth 
+	
+	expiration := aMonth ! !
+!CreditCard methodsFor: 'initialization' stamp: 'GR 12/2/2020 14:56:47'!
+initializeWithNumber: aCCN initializeExpiringOn: aMonth 
+	
+	expiration := aMonth ! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:56:47' prior: 50891117!
+withNumber: aName expiringOn: aMonth withOwner: anOwner  
+	
+	^self new initializeWithNumber: aNumber initializeExpiringOn: aMonth! !
+
+!methodRemoval: CreditCard #initializeExpiringOn: stamp: 'GR 12/2/2020 14:56:47'!
+initializeExpiringOn: aMonth 
+	
+	expiration := aMonth !
+!CreditCard methodsFor: 'initialization' stamp: 'GR 12/2/2020 14:57:01'!
+initializeWithNumber: aCCN expiringOn: aMonth 
+	
+	expiration := aMonth ! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:57:01' prior: 50891224!
+withNumber: aName expiringOn: aMonth withOwner: anOwner  
+	
+	^self new initializeWithNumber: aNumber expiringOn: aMonth! !
+
+!methodRemoval: CreditCard #initializeWithNumber:initializeExpiringOn: stamp: 'GR 12/2/2020 14:57:01'!
+initializeWithNumber: aCCN initializeExpiringOn: aMonth 
+	
+	expiration := aMonth !
+!CreditCard methodsFor: 'initialization' stamp: 'GR 12/2/2020 14:57:31'!
+initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO  
+	
+	expiration := aMonth ! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:57:31' prior: 50891241!
+withNumber: aName expiringOn: aMonth withOwner: anOwner  
+	
+	^self new initializeWithNumber: aNumber expiringOn: aMonth withOwner: anOwner! !
+
+!methodRemoval: CreditCard #initializeWithNumber:expiringOn: stamp: 'GR 12/2/2020 14:57:31'!
+initializeWithNumber: aCCN expiringOn: aMonth 
+	
+	expiration := aMonth !
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'GR 12/2/2020 14:58:15'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration numer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'GR 12/2/2020 14:58:16'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration numer owner'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'GR 12/2/2020 14:58:13' prior: 50891253!
+initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO  
+	
+	numer := aCCN.
+	expiration := aMonth.
+	owner := aCCO. ! !
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'GR 12/2/2020 14:58:26'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration number owner'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:58:26' prior: 50891286!
+initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO  
+	
+	number := aCCN.
+	expiration := aMonth.
+	owner := aCCO. ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'GR 12/2/2020 14:58:44' prior: 50891259!
+withNumber: aCCN expiringOn: aMonth withOwner: aCCO  
+	
+	^self new initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'GR 12/2/2020 14:59:10' prior: 50891308!
+withNumber: aCCN expiringOn: aMonth withOwner: aCCO 
+
+	(aCCO = '') ifTrue: [ self error: self invalidCreditCard ].
+	
+	^self new initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO! !
+!CreditCard class methodsFor: 'nil' stamp: 'GR 12/2/2020 14:59:32'!
+invalidCreditCard
+
+	^ 'Invalid credit card'! !
+!CreditCard class methodsFor: 'error handling' stamp: 'GR 12/2/2020 14:59:54'!
+invalidCreditCardErrorDescription
+
+	^ 'Invalid credit card'! !
+!CreditCard class methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 14:59:54' prior: 50891316!
+withNumber: aCCN expiringOn: aMonth withOwner: aCCO 
+
+	(aCCO = '') ifTrue: [ self error: self invalidCreditCardErrorDescription ].
+	
+	^self new initializeWithNumber: aCCN expiringOn: aMonth withOwner: aCCO! !
+
+!methodRemoval: CreditCard class #invalidCreditCard stamp: 'GR 12/2/2020 14:59:54'!
+invalidCreditCard
+
+	^ 'Invalid credit card'!
+
+12.5685!
+
+12.5685 trim!
+
+12.5685 rounded !
+
+12.5685 floor!
+
+12.5685 *100 floor!
+
+(12.5685 *100) floor!
+
+(12.5685 *100) floor /100 !
+
+(12.5685 *100) floor asFloat /100!
+
+(12.56865 *100) truncated !
+
+(12.56865 *100) truncated /100 !
+
+(12.56865 *100) truncated /100 asFloat!
+
+12.5864 roundDownTo: 2 !
+
+12.5864 roundDownTo: 1 !
+
+12.5864 roundDownTo: 4 !
+
+12.5864 roundTo: 3 !
+
+12.5864 roundTo: 15!
+
+12.5864 roundTo: 15 !
+
+12.5864 truncateTo: 2 !
+
+12.5864 truncateTo: 12.58 !
+
+12.5854 significand !
+
+12.5854 significand !
+!Cashier methodsFor: 'checkout - private' stamp: 'GR 12/2/2020 15:18:52' prior: 50883168!
+debitTotal
+	
+	| trimmedTotal |
+	
+	trimmedTotal := (total*100) truncated /100 asFloat.
+	
+	merchantProcessor debit: trimmedTotal from: creditCard.
+	! !
+!Cashier methodsFor: 'checkout - private' stamp: 'GR 12/2/2020 15:19:46' prior: 50891365!
+debitTotal
+	
+	merchantProcessor debit: total from: creditCard.
+	! !
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 15:31:38'!
+listPurchasesOfUser: aUsername withPassword: aPassword
+
+	| purchases total |
+	
+	self verificateUsername: aUsername andPassword: aPassword.
+	
+	purchases := (self purchasesOf: aUsername) inject: Bag new addingAll: [ :aSale | aSale purchases].
+	
+	total := (self purchasesOf: aUsername) inject: 0 into: [ :totalAmount :aSale | totalAmount + aSale total].
+	
+	^ OrderedCollection with: purchases with: total.! !
+!RESTInterfaceTest methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 15:31:38' prior: 50890300!
+test18CanListPurchasesOfUserWithNoSales
+	
+	self assert: (OrderedCollection with: Bag new with: 0) equals: (interface listPurchasesOfUser: 'Crocken321' withPassword: 'lacontraseniamasseguradetodas').! !
+!RESTInterfaceTest methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 15:31:38' prior: 50889773!
+test17CanNotListPurchasesOfInvalidUsername
+
+	self
+		should: [ interface listPurchasesOfUser: 'Ete Sech' withPassword: 'hola123' ] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: RESTInterface invalidUserError.! !
+!RESTInterfaceTest methodsFor: 'as yet unclassified' stamp: 'GR 12/2/2020 15:31:38' prior: 50890651!
+test19CanListPurchasesOfUserWithSales
+	
+	interface createCartWithUser: 'Crocken321' andPassword: 'lacontraseniamasseguradetodas'.
+	
+	interface addToCart: '1' theProduct: testObjectsFactory itemSellByTheStore withAmount: 10.
+	
+	interface checkout: '1' withCCN: '4865642166849654' withCCED: (Month month: 8 year: 2021) withCCO: 'Matias Morales'.
+	
+	self 
+		assert: (OrderedCollection with: testObjectsFactory bagWithElements with: testObjectsFactory itemSellByTheStorePrice * 10 ) 
+		equals: (interface listPurchasesOfUser: 'Crocken321' withPassword: 'lacontraseniamasseguradetodas').! !
+
+!methodRemoval: RESTInterface #listPurchases:withPassword: stamp: 'GR 12/2/2020 15:31:38'!
+listPurchases: aUsername withPassword: aPassword
+
+	| purchases total |
+	
+	self verificateUsername: aUsername andPassword: aPassword.
+	
+	purchases := (self purchasesOf: aUsername) inject: Bag new addingAll: [ :aSale | aSale purchases].
+	
+	total := (self purchasesOf: aUsername) inject: 0 into: [ :totalAmount :aSale | totalAmount + aSale total].
+	
+	^ OrderedCollection with: purchases with: total.!
+!RESTInterface methodsFor: 'operations' stamp: 'GR 12/2/2020 15:39:24' prior: 50890470!
+listCart: aCartID 
+	
+	| cart |
+	
+	(carts includesKey: aCartID) ifFalse: [self error: self class invalidCartError ].
+	
+	self checkIfCartTimeExceeded: aCartID.
+	
+	cart := self cartWithID: aCartID.
+	
+	^ cart listCart.! !
+
+!testRun: #RESTInterfaceTest #test04CreateMoreThanOneCartWithValidUsernameAndPasswordReturnsCartIDForEach stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test01CreateCartWithValidUsernameAndPasswordReturnsCartID stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test02CanNotCreateCartWithInvalidUsername stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test03CanNotCreateCartWithValidUsernameButInvalidPassword stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test04CreateMoreThanOneCartWithValidUsernameAndPasswordReturnsCartIDForEach stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test05CartIsCreatedAndSaved stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test06CanNotAddProductsToInvalidCart stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test07CanListAnEmptyCart stamp: 'GR 12/2/2020 15:39:29'!
+FAILURE!
+
+!testRun: #RESTInterfaceTest #test08CanListCartWithValidID stamp: 'GR 12/2/2020 15:39:29'!
+FAILURE!
+
+!testRun: #RESTInterfaceTest #test09CanNotListCartWithInvalidID stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test10CanAddProductsToCartWithCartID stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test11CanNotCheckoutCartWithInvalidID stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test12CanNotAddToCartIf30MinutesPassedSinceLastOperation stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test13CanNotListCartIf30MinutesPassedSinceLastOperation stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test14CanNotCheckoutIf30MinutesPassedSinceLastOperation stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test15CheckoutACartReturnsSaleID stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test16CheckOutDeletesTheCart stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test17CanNotListPurchasesOfInvalidUsername stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test18CanListPurchasesOfUserWithNoSales stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+
+!testRun: #RESTInterfaceTest #test19CanListPurchasesOfUserWithSales stamp: 'GR 12/2/2020 15:39:29'!
+PASSED!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:39:34' prior: 50890851!
+test07CanListAnEmptyCart
+
+	interface createCartWithUser: 'Crocken321' andPassword: 'lacontraseniamasseguradetodas'.
+	
+	self assert: Bag new equals: (interface listCart: '1')
+	
+	! !
+
+!testRun: #RESTInterfaceTest #test07CanListAnEmptyCart stamp: 'GR 12/2/2020 15:39:36'!
+PASSED!
+!RESTInterfaceTest methodsFor: 'tests' stamp: 'GR 12/2/2020 15:40:08' prior: 50890825!
+test08CanListCartWithValidID
+
+	interface createCartWithUser: 'Crocken321' andPassword: 'lacontraseniamasseguradetodas'.
+	
+	interface addToCart: '1' theProduct: testObjectsFactory itemSellByTheStore withAmount: 10.
+	
+	self assert: testObjectsFactory bagWithElements equals: (interface listCart: '1')
+	
+	! !
+
+!testRun: #RESTInterfaceTest #test08CanListCartWithValidID stamp: 'GR 12/2/2020 15:40:09'!
+PASSED!
+
+----QUIT----(2 December 2020 15:40:56) CuisUniversity-4384.image priorSource: 17900426!
+
+----STARTUP---- (2 December 2020 15:41:17) as /home/grosinov/linux64/CuisUniversity-4384.image!
+
+
+----QUIT----(2 December 2020 15:41:29) CuisUniversity-4384.image priorSource: 17917141!
